@@ -6,7 +6,15 @@ class nav_bar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text('Airtastic'),
+            accountEmail: Text('Airtastic@gmail.com'),
+            //https://www.youtube.com/watch?v=SLR8U55FpFQ
+          )
+        ],
+      ),
     );
   }
 }
