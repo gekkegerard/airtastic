@@ -1,4 +1,6 @@
+import 'package:airtastic/nav_bar.dart';
 import 'package:flutter/material.dart';
+//import 'package:sidebar/nav_bar.dart';
 
 void main() => runApp(const MaterialApp(
       home: Homescreen(),
@@ -15,6 +17,7 @@ class _Homescreen extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: nav_bar(),
       appBar: AppBar(
         title: const Text('Airtastic'),
         centerTitle: true,
