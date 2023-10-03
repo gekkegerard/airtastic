@@ -17,14 +17,14 @@ class _Homescreen extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: nav_bar(),
+      drawer: const nav_bar(),
       appBar: AppBar(
         title: const Text('Airtastic'),
         centerTitle: true,
         backgroundColor: Colors.red[600],
       ),
       body: const Center(
-        child: Text('Welcome to Airtastic!'),
+        child: Text('Welcome to Airtastic!!!'),
       ),
     );
   }

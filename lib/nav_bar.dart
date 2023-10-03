@@ -7,7 +7,7 @@ class nav_bar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: [
+        children: const [
           UserAccountsDrawerHeader(
             accountName: Text('Airtastic'),
             accountEmail: Text('Airtastic@gmail.com'),
