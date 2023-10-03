@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LineChartWidget(pricePoints),
+                LineChartWidget(generateRandomData()),
               ],
             ),
           ),
