@@ -1,4 +1,3 @@
-// ignore: depend_on_referenced_packages
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:airtastic/data/random_chart_data.dart';
@@ -21,7 +20,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   @override
   void initState() {
-    Timer.periodic(const Duration(seconds: 20), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       // Update the data
       setState(() {
         points = generateRandomData();
