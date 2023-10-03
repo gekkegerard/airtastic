@@ -22,11 +22,6 @@ class nav_bar extends StatelessWidget {
               ),
             ),
           )
-          ListTile(
-            leading: Icon(Icons.arrow_circle_down),
-            title: Text('favorites'),
-            //onTap: () {},
-          )
         ],
       ),
     );
