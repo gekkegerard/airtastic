@@ -43,6 +43,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               dotData: FlDotData(
                 show: false,
               ),
+              aboveBarData: BarAreaData(show: false),
             ),
           ],
         ),
