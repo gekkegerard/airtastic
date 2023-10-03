@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:airtastic/pages/Home.dart';
 
 class nav_bar extends StatelessWidget {
   const nav_bar({super.key});
@@ -7,7 +8,7 @@ class nav_bar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: const [
+        children: [
           UserAccountsDrawerHeader(
             accountName: Text('Airtastic'),
             accountEmail: Text('Airtastic@gmail.com'),
@@ -21,7 +22,14 @@ class nav_bar extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Home'),
+            onTap: () {
+              Navigator.pushNamed(context, '/');
+            },
+          ),
         ],
       ),
     );
