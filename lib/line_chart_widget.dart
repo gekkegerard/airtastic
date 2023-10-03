@@ -43,35 +43,41 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio:
-          1, // Prefer using *AspectRatio* over SizedBox so that the graph is not skewed on different screen sizes
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(
-            show: true,
-          ),
-          borderData: FlBorderData(
-            // Add border only at the bottom and left
-            border: const Border(bottom: BorderSide(), left: BorderSide()),
-            show: true,
-          ),
-          titlesData: FlTitlesData(
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          lineBarsData: [
-            LineChartBarData(
-              color: Colors.red[600],
-              spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
-              isCurved: false,
-              dotData: FlDotData(
-                show: false,
+        aspectRatio:
+            1, // Prefer using *AspectRatio* over SizedBox so that the graph is not skewed on different screen sizes
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+              0, 0, 30, 0), // Add a bit of padding to the right
+          child: LineChart(
+            LineChartData(
+              gridData: FlGridData(
+                show: true,
               ),
-              aboveBarData: BarAreaData(show: false),
+              borderData: FlBorderData(
+                // Add border only at the bottom and left
+                border: const Border(bottom: BorderSide(), left: BorderSide()),
+                show: true,
+              ),
+              titlesData: FlTitlesData(
+                rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              ),
+              lineBarsData: [
+                LineChartBarData(
+                  color: Colors.red[600],
+                  spots:
+                      points.map((point) => FlSpot(point.x, point.y)).toList(),
+                  isCurved: false,
+                  dotData: FlDotData(
+                    show: false,
+                  ),
+                  aboveBarData: BarAreaData(show: false),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
