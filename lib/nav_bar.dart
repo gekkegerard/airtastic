@@ -15,9 +15,17 @@ class nav_bar extends StatelessWidget {
               child: ClipOval(
                 child: Image(
                   image: AssetImage('assets/ozon.jpeg'),
+                  width: 90,
+                  height: 90,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
+          )
+          ListTile(
+            leading: Icon(Icons.arrow_circle_down),
+            title: Text('favorites'),
+            //onTap: () {},
           )
         ],
       ),
