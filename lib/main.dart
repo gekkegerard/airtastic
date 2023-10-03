@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:airtastic/pages/Home.dart';
 
 //import 'package:sidebar/nav_bar.dart';
-import 'package:airtastic/line_chart_widget.dart';
+import 'package:airtastic/lineChartWidget.dart';
 import 'package:airtastic/data/random_chart_data.dart';
 
 void main() => runApp(const MaterialApp(
