@@ -24,7 +24,7 @@ class _Homescreen extends State<Homescreen> {
         backgroundColor: Colors.red[600],
       ),
       body: const Center(
-        child: Text('Welcome to Airtastic!!!'),
+        child: Text('Welcome to Airtastic!'),
       ),
     );
   }

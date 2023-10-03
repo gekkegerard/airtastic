@@ -11,10 +11,17 @@ class nav_bar extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountName: Text('Airtastic'),
             accountEmail: Text('Airtastic@gmail.com'),
-            //https://www.youtube.com/watch?v=SLR8U55FpFQ
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: Image(
+                  image: AssetImage('assets/ozon.jpeg'),
+                ),
+              ),
+            ),
           )
         ],
       ),
     );
   }
 }
+//https://www.youtube.com/watch?v=SLR8U55FpFQ
