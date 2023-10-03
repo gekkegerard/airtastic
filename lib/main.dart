@@ -1,9 +1,11 @@
 import 'package:airtastic/nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:airtastic/pages/Home.dart';
 
 
 void main() => runApp(const MaterialApp(
-      home: Homescreen(),
+      home: Home(),
+      //home: Homescreen(),
     ));
 
 class Homescreen extends StatefulWidget {
