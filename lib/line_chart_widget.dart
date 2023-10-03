@@ -10,7 +10,8 @@ class LineChartWidget extends StatefulWidget {
 
   @override
   State<LineChartWidget> createState() =>
-      _LineChartWidgetState(points: this.points);
+      // ignore: no_logic_in_create_state
+      _LineChartWidgetState(points: points);
 }
 
 class _LineChartWidgetState extends State<LineChartWidget> {
@@ -18,15 +19,23 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   _LineChartWidgetState({required this.points});
 
+  late Timer _timer;
+
   @override
-  // Update the chart every few seconds
-  void initState() {
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
       setState(() {
         points = generateRandomData();
       });
     });
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer
+        .cancel(); // Zorg ervoor dat de timer wordt gestopt bij het opruimen van de state
+    super.dispose();
   }
 
   @override

@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: nav_bar(),
+        drawer: const nav_bar(),
         appBar: AppBar(
           title: const Text('Airtastic'),
           centerTitle: true,

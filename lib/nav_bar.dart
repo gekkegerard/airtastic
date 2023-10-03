@@ -9,7 +9,7 @@ class nav_bar extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             accountName: Text('Airtastic'),
             accountEmail: Text('Airtastic@gmail.com'),
             currentAccountPicture: CircleAvatar(
