@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:airtastic/data/random_chart_data.dart';
 import 'dart:async';
 
+// https://blog.logrocket.com/build-beautiful-charts-flutter-fl-chart/
+
 class LineChartWidget extends StatefulWidget {
   const LineChartWidget(this.points, {Key? key}) : super(key: key);
 
-  final List<PricePoint> points;
+  final List<ValuePoint> points;
 
   @override
   State<LineChartWidget> createState() =>
@@ -15,7 +17,7 @@ class LineChartWidget extends StatefulWidget {
 }
 
 class _LineChartWidgetState extends State<LineChartWidget> {
-  List<PricePoint> points;
+  List<ValuePoint> points;
 
   _LineChartWidgetState({required this.points});
 
@@ -32,18 +34,31 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   }
 
   @override
+  // Stop the timer when the widget is disposed to prevent memory leaks
   void dispose() {
-    _timer
-        .cancel(); // Zorg ervoor dat de timer wordt gestopt bij het opruimen van de state
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio:
+          1, // Prefer using *AspectRatio* over SizedBox so that the graph is not skewed on different screen sizes
       child: LineChart(
         LineChartData(
+          gridData: FlGridData(
+            show: true,
+          ),
+          borderData: FlBorderData(
+            // Add border only at the bottom and left
+            border: const Border(bottom: BorderSide(), left: BorderSide()),
+            show: true,
+          ),
+          titlesData: FlTitlesData(
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          ),
           lineBarsData: [
             LineChartBarData(
               color: Colors.red[600],

@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:collection/collection.dart';
 
-class PricePoint {
+class ValuePoint {
   final double x;
   final double y;
 
-  PricePoint({required this.x, required this.y});
+  ValuePoint({required this.x, required this.y});
 }
 
-List<PricePoint> generateRandomData() {
+List<ValuePoint> generateRandomData() {
   final Random random = Random();
   final randomNumbers = <double>[];
   for (var i = 0; i <= 11; i++) {
@@ -17,6 +17,6 @@ List<PricePoint> generateRandomData() {
 
   return randomNumbers
       .mapIndexed(
-          (index, element) => PricePoint(x: index.toDouble(), y: element))
+          (index, element) => ValuePoint(x: index.toDouble(), y: element))
       .toList();
 }
