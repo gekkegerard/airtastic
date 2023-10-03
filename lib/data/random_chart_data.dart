@@ -8,11 +8,11 @@ class PricePoint {
   PricePoint({required this.x, required this.y});
 }
 
-List<PricePoint> get pricePoints {
+List<PricePoint> generateRandomData() {
   final Random random = Random();
   final randomNumbers = <double>[];
   for (var i = 0; i <= 11; i++) {
-    randomNumbers.add(random.nextDouble());
+    randomNumbers.add(random.nextDouble() * 40);
   }
 
   return randomNumbers
