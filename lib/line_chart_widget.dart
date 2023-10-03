@@ -19,9 +19,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   _LineChartWidgetState({required this.points});
 
   @override
+  // Update the chart every few seconds
   void initState() {
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      // Update the data
       setState(() {
         points = generateRandomData();
       });
