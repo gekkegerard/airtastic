@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/pages/home.dart';
 import 'package:airtastic/pages/loading.dart';
-import 'package:airtastic/pages/Ozon.dart';
+import 'package:airtastic/pages/ozon.dart';
 import 'package:airtastic/pages/settings.dart';
-import 'package:airtastic/pages/Temperature.dart';
-import 'package:airtastic/pages/Humidity.dart';
-import 'package:airtastic/pages/About.dart';
+import 'package:airtastic/pages/temperature.dart';
+import 'package:airtastic/pages/humidity.dart';
+import 'package:airtastic/pages/about.dart';
 import 'package:airtastic/pages/connected_devices.dart';
 
 void main() => runApp(MaterialApp(
