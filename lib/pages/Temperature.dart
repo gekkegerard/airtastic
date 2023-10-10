@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:airtastic/nav_bar.dart';
 import 'package:airtastic/data/temperature_page_content.dart';
 
@@ -40,4 +39,5 @@ class _TemperaturePageState extends State<TemperaturePage> {
             ),
           ],
         ));
-  }}
+  }
+}
