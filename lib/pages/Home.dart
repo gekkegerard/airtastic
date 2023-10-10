@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:airtastic/line_chart_widget.dart';
 import 'package:airtastic/data/random_chart_data.dart';

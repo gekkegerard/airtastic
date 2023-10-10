@@ -8,6 +8,7 @@ class nav_bar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           const UserAccountsDrawerHeader(
             accountName: Text('Airtastic'),
@@ -22,12 +23,69 @@ class nav_bar extends StatelessWidget {
                 ),
               ),
             ),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              image: DecorationImage(
+                image: NetworkImage(
+                    'https://images.unsplash.com/photo-1562614799-bd2424a406e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'),
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pushNamed(context, '/Home');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.replay_outlined),
+            title: const Text('Connected devices'),
+            onTap: () {
+              Navigator.pushNamed(context, '/connected_devices');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.thermostat),
+            title: const Text('Temperature'),
+            onTap: () {
+              Navigator.pushNamed(context, '/Temperature');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.water_drop),
+            title: const Text('Humidity'),
+            onTap: () {
+              Navigator.pushNamed(context, '/Humidity');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.dangerous),
+            title: const Text('Ozon'),
+            onTap: () {
+              Navigator.pushNamed(context, '/Ozon');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.co2),
+            title: const Text('Carbon dioxide'),
             onTap: () {
               Navigator.pushNamed(context, '/');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text('About'),
+            onTap: () {
+              Navigator.pushNamed(context, '/About');
             },
           ),
         ],
