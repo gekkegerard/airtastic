@@ -36,7 +36,7 @@ class nav_bar extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
-              Navigator.pushNamed(context, '/Home');
+              Navigator.pushReplacementNamed(context, '/Home');
             },
           ),
           ListTile(
@@ -50,7 +50,7 @@ class nav_bar extends StatelessWidget {
             leading: const Icon(Icons.thermostat),
             title: const Text('Temperature'),
             onTap: () {
-              Navigator.pushNamed(context, '/Temperature');
+              Navigator.pushReplacementNamed(context, '/Temperature');
             },
           ),
           ListTile(
