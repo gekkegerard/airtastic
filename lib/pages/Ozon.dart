@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/nav_bar.dart';
+import 'package:airtastic/widgets/common_widgets.dart';
 
 class Ozon extends StatefulWidget {
   const Ozon({super.key});
@@ -9,10 +10,12 @@ class Ozon extends StatefulWidget {
 }
 
 class _OzonState extends State<Ozon> {
+  final CommonWidgets commonWidgets = CommonWidgets();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: const Text('Ozon'),
+        body: commonWidgets.buildContainer('Header', 'Paragraph'),
         drawer: const nav_bar(),
         appBar: AppBar(
           title: const Text("Ozon"),
@@ -20,4 +23,4 @@ class _OzonState extends State<Ozon> {
           backgroundColor: Colors.red[600],
         ));
   }
-} 
+}

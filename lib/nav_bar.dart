@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:airtastic/pages/home.dart';
 
 class nav_bar extends StatelessWidget {
   const nav_bar({super.key});
