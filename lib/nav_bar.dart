@@ -43,7 +43,7 @@ class nav_bar extends StatelessWidget {
             leading: const Icon(Icons.replay_outlined),
             title: const Text('Connected devices'),
             onTap: () {
-              Navigator.pushNamed(context, '/connected_devices');
+              Navigator.pushReplacementNamed(context, '/connected_devices');
             },
           ),
           ListTile(
@@ -57,35 +57,35 @@ class nav_bar extends StatelessWidget {
             leading: const Icon(Icons.water_drop),
             title: const Text('Humidity'),
             onTap: () {
-              Navigator.pushNamed(context, '/Humidity');
+              Navigator.pushReplacementNamed(context, '/Humidity');
             },
           ),
           ListTile(
             leading: const Icon(Icons.dangerous),
             title: const Text('Ozon'),
             onTap: () {
-              Navigator.pushNamed(context, '/Ozon');
+              Navigator.pushReplacementNamed(context, '/Ozon');
             },
           ),
           ListTile(
             leading: const Icon(Icons.co2),
             title: const Text('Carbon dioxide'),
             onTap: () {
-              Navigator.pushNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/CO2');
             },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.pushReplacementNamed(context, '/settings');
             },
           ),
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
             onTap: () {
-              Navigator.pushNamed(context, '/About');
+              Navigator.pushReplacementNamed(context, '/About');
             },
           ),
         ],

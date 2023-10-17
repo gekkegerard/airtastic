@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:airtastic/nav_bar.dart';
 
 class Devices extends StatefulWidget {
   const Devices({super.key});
@@ -10,8 +11,13 @@ class Devices extends StatefulWidget {
 class _DevicesState extends State<Devices> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text('Devices'),
-    );
+    return Scaffold(
+        body: const Text('Devices'),
+        drawer: const nav_bar(),
+        appBar: AppBar(
+          title: const Text("Devices"),
+          centerTitle: true,
+          backgroundColor: Colors.red[600],
+        ));
   }
 }

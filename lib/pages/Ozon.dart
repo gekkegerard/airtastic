@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:airtastic/nav_bar.dart';
 
 class Ozon extends StatefulWidget {
   const Ozon({super.key});
@@ -10,8 +11,13 @@ class Ozon extends StatefulWidget {
 class _OzonState extends State<Ozon> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: Text('Ozon')),
-    );
+    return Scaffold(
+        body: const Text('Ozon'),
+        drawer: const nav_bar(),
+        appBar: AppBar(
+          title: const Text("Ozon"),
+          centerTitle: true,
+          backgroundColor: Colors.red[600],
+        ));
   }
 } 

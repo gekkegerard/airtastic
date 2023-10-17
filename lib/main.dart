@@ -7,17 +7,19 @@ import 'package:airtastic/pages/temperature.dart';
 import 'package:airtastic/pages/humidity.dart';
 import 'package:airtastic/pages/about.dart';
 import 'package:airtastic/pages/connected_devices.dart';
+import 'package:airtastic/pages/CO2.dart';
 
 void main() => runApp(MaterialApp(
-      initialRoute: '/home',
+      initialRoute: '/Home',
       routes: {
         '/': (context) => const Loading(),
-        '/home': (context) => const Home(),
-        '/Ozon': (context) => const Ozon(),
-        '/settings': (context) => const Settings(),
+        '/Home': (context) => const Home(),
+        '/connected_devices': (context) => const Devices(),
         '/Temperature': (context) => const TemperaturePage(),
         '/Humidity': (context) => const Humidity(),
+        '/Ozon': (context) => const Ozon(),
+        '/CO2': (context) => const CO2(),
+        '/settings': (context) => const Settings(),
         '/About': (context) => const About(),
-        '/connected_devices': (context) => const Devices(),
       },
     ));
