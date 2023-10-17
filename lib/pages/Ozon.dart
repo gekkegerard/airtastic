@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/nav_bar.dart';
 import 'package:airtastic/widgets/common_widgets.dart';
+import 'package:airtastic/widgets/scaffold.dart';
 
 class Ozon extends StatefulWidget {
   const Ozon({super.key});
