@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:airtastic/nav_bar.dart';
 
-Widget generateCustomScaffold({
-  required String navBarHeader,
-  required Widget drawer,
-  required String firstHeader,
-  required String firstParagraph,
-  required String secondHeader,
-  required String secondParagraph,
-  required String thirdHeader,
-  required String thirdParagraph,
-}) {
-  return Scaffold(
-      drawer: drawer,
+class CustomScaffold extends StatelessWidget {
+  final Widget navBarHeader;
+  final Widget firstHeader;
+  final Widget firstParagraph;
+  final Widget secondHeader;
+  final Widget secondParagraph;
+  final Widget thirdHeader;
+  final Widget thirdParagraph;
+
+  const CustomScaffold({
+    super.key,
+    required this.navBarHeader,
+    required this.firstHeader,
+    required this.firstParagraph,
+    required this.secondHeader,
+    required this.secondParagraph,
+    required this.thirdHeader,
+    required this.thirdParagraph,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const nav_bar(),
       appBar: AppBar(
-        title: Text(navBarHeader),
+        title: const Text("test"),
         centerTitle: true,
         backgroundColor: Colors.red[600],
       ),
@@ -24,17 +37,13 @@ Widget generateCustomScaffold({
           buildContainer(secondHeader, secondParagraph),
           buildContainer(thirdHeader, thirdParagraph),
         ],
-      ));
-}
+      ),
+    );
+  }
 
-Widget buildContainer(String header, String paragraph) {
-  return Container(
-    // Customize the container's appearance as needed
-    child: Column(
-      children: [
-        Text(header),
-        Text(paragraph),
-      ],
-    ),
-  );
+  Widget buildContainer(Widget header, Widget paragraph) {
+    return Column(
+      children: [header, paragraph],
+    );
+  }
 }
