@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
-import 'package:airtastic/data/ozone_page_content.dart';
+import 'package:airtastic/data/Ozone_page_content.dart';
 
-class Ozon extends StatefulWidget {
-  const Ozon({super.key});
+class Ozone extends StatefulWidget {
+  const Ozone({super.key});
 
   @override
-  State<Ozon> createState() => _OzonState();
+  State<Ozone> createState() => _OzoneState();
 }
 
-class _OzonState extends State<Ozon> {
+class _OzoneState extends State<Ozone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

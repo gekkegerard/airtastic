@@ -61,9 +61,9 @@ class nav_bar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.dangerous),
-            title: const Text('Ozon'),
+            title: const Text('Ozone'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Ozon');
+              Navigator.pushReplacementNamed(context, '/Ozone');
             },
           ),
           ListTile(

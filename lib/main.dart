@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/pages/home.dart';
 import 'package:airtastic/pages/loading.dart';
-import 'package:airtastic/pages/ozon.dart';
+import 'package:airtastic/pages/ozone.dart';
 import 'package:airtastic/pages/settings.dart';
 import 'package:airtastic/pages/temperature.dart';
 import 'package:airtastic/pages/humidity.dart';
@@ -17,7 +17,7 @@ void main() => runApp(MaterialApp(
         '/connected_devices': (context) => const Devices(),
         '/Temperature': (context) => const TemperaturePage(),
         '/Humidity': (context) => const Humidity(),
-        '/Ozon': (context) => const Ozon(),
+        '/Ozone': (context) => const Ozone(),
         '/CO2': (context) => const CO2(),
         '/settings': (context) => const Settings(),
         '/About': (context) => const About(),
