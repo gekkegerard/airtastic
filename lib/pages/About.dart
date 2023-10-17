@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:airtastic/nav_bar.dart';
+import 'package:airtastic/widgets/nav_bar.dart';
 
 class About extends StatefulWidget {
   const About({super.key});

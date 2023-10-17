@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:airtastic/nav_bar.dart';
+import 'package:airtastic/widgets/nav_bar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});

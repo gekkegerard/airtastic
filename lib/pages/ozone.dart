@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
-import 'package:airtastic/data/carbon_dioxide_page_content.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
+import 'package:airtastic/data/ozone_page_content.dart';
 
-class CO2 extends StatefulWidget {
-  const CO2({super.key});
+class Ozon extends StatefulWidget {
+  const Ozon({super.key});
 
   @override
-  State<CO2> createState() => _CO2State();
+  State<Ozon> createState() => _OzonState();
 }
 
-class _CO2State extends State<CO2> {
+class _OzonState extends State<Ozon> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:airtastic/nav_bar.dart';
+import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/data/humidity_page_content.dart';
+import 'package:airtastic/widgets/paragraph_builder.dart';
 
 class Humidity extends StatefulWidget {
   const Humidity({super.key});
@@ -12,12 +14,20 @@ class _HumidityState extends State<Humidity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: const Text('Humidity'),
-        drawer: const nav_bar(),
-        appBar: AppBar(
-          title: const Text("Humidity"),
-          centerTitle: true,
-          backgroundColor: Colors.red[600],
-        ));
+      drawer: const nav_bar(),
+      appBar: AppBar(
+        title: const Text(navBarHeader),
+        centerTitle: true,
+        backgroundColor: Colors.red[600],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          paragraphBuilder(firstHeader, firstParagraph),
+          paragraphBuilder(secondHeader, secondParagraph),
+          paragraphBuilder(thirdHeader, thirdParagraph),
+        ],
+      ),
+    );
   }
 }
