@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
-import 'package:airtastic/data/Ozone_page_content.dart';
+import 'package:airtastic/data/ozone_page_content.dart';
 
 class Ozone extends StatefulWidget {
   const Ozone({super.key});
@@ -26,6 +26,7 @@ class _OzoneState extends State<Ozone> {
           paragraphBuilder(firstHeader, firstParagraph),
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
+          paragraphBuilder("Sources", sourceText),
         ],
       ),
     );

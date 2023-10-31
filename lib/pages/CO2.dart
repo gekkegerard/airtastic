@@ -26,6 +26,7 @@ class _CO2State extends State<CO2> {
           paragraphBuilder(firstHeader, firstParagraph),
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
+          paragraphBuilder("Sources", sourceText),
         ],
       ),
     );

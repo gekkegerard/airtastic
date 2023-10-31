@@ -26,6 +26,7 @@ class _HumidityState extends State<Humidity> {
           paragraphBuilder(firstHeader, firstParagraph),
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
+          paragraphBuilder("Sources", sourceText),
         ],
       ),
     );
