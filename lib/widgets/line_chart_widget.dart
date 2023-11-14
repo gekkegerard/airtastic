@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:airtastic/data/random_chart_data.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // https://blog.logrocket.com/build-beautiful-charts-flutter-fl-chart/
 
@@ -28,13 +30,12 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     super.didChangeDependencies();
     _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
       setState(() {
-        points = generateRandomData();
+        getData();
       });
     });
   }
 
   @override
-  // Stop the timer when the widget is disposed to prevent memory leaks
   void dispose() {
     _timer.cancel();
     super.dispose();
@@ -43,41 +44,73 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio:
-            1, // Prefer using *AspectRatio* over SizedBox so that the graph is not skewed on different screen sizes
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              0, 0, 30, 0), // Add a bit of padding to the right
-          child: LineChart(
-            LineChartData(
-              gridData: FlGridData(
-                show: true,
-              ),
-              borderData: FlBorderData(
-                // Add border only at the bottom and left
-                border: const Border(bottom: BorderSide(), left: BorderSide()),
-                show: true,
-              ),
-              titlesData: FlTitlesData(
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              lineBarsData: [
-                LineChartBarData(
-                  color: Colors.red[600],
-                  spots:
-                      points.map((point) => FlSpot(point.x, point.y)).toList(),
-                  isCurved: false,
-                  dotData: FlDotData(
-                    show: false,
-                  ),
-                  aboveBarData: BarAreaData(show: false),
-                ),
-              ],
+      aspectRatio: 1,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: LineChart(
+          LineChartData(
+            gridData: const FlGridData(
+              show: true,
             ),
+            borderData: FlBorderData(
+              border: const Border(bottom: BorderSide(), left: BorderSide()),
+              show: true,
+            ),
+            titlesData: const FlTitlesData(
+              rightTitles:
+                  AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 1.0,
+                  reservedSize: 44,
+                ),
+                axisNameSize: 18,
+                axisNameWidget: Text("Temperature in °C",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 1.0,
+                ),
+                axisNameSize: 18,
+                axisNameWidget: Text("Wat komt hier?",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              ),
+            ),
+            lineBarsData: [
+              LineChartBarData(
+                color: Colors.red[600],
+                spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
+                isCurved: false,
+                dotData: const FlDotData(
+                  show: true,
+                ),
+                aboveBarData: BarAreaData(show: false),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Future getData() async {
+    var url = 'https://markus.glumm.sites.nhlstenden.com/get.php';
+    http.Response response = await http.get(Uri.parse(url));
+    var data = jsonDecode(response.body) as List<dynamic>;
+
+    setState(() {
+      points = data
+          .map((entry) => ValuePoint(
+                x: double.parse(entry['id'].toString()),
+                y: double.parse(entry['temperature'].toString()),
+              ))
+          .toList();
+    });
   }
 }
