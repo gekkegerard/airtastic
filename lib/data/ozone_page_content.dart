@@ -8,7 +8,7 @@ const secondParagraph =
 const thirdHeader = 'What causes ground-level ozone?';
 const thirdParagraph =
     'Ground level ozone, is not emitted directly into the air, but is created by chemical reactions between oxides of nitrogen (NOx) and volatile organic compounds (VOC). This happens when pollutants emitted by cars, power plants, industrial boilers, refineries, chemical plants, and other sources chemically react in the presence of sunlight.';
-const sourceText =
-    'https://www.epa.gov/ozone-pollution-and-your-patients-health/what-ozone'
-    '\n\n'
-    'https://www.epa.gov/ground-level-ozone-pollution/ground-level-ozone-basics';
+final List<String> url = [
+  'https://www.epa.gov/ozone-pollution-and-your-patients-health/what-ozone',
+  'https://www.epa.gov/ground-level-ozone-pollution/ground-level-ozone-basics',
+];

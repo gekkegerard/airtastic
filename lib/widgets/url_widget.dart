@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 Widget urlwidget(String url) {
   return Container(
     alignment: Alignment.center,
-    padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+    padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 20.0),
     child: InkWell(
       child: Padding(
         padding: const EdgeInsets.all(16.0),

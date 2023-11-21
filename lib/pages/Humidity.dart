@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/widgets/url_widget.dart';
 import 'package:airtastic/data/humidity_page_content.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
 
@@ -23,10 +24,14 @@ class _HumidityState extends State<Humidity> {
       body: ListView(
         shrinkWrap: true,
         children: [
-          paragraphBuilder(firstHeader, firstParagraph),
-          paragraphBuilder(secondHeader, secondParagraph),
-          paragraphBuilder(thirdHeader, thirdParagraph),
-          paragraphBuilder("Sources", sourceText),
+          paragraphBuilder(firstHeader, [firstParagraph]),
+          paragraphBuilder(secondHeader, [secondParagraph]),
+          paragraphBuilder(thirdHeader, [thirdParagraph]),
+          paragraphBuilder("Sources", [
+            urlwidget(url[0]),
+            urlwidget(url[1]),
+            urlwidget(url[2]),
+          ]),
         ],
       ),
     );

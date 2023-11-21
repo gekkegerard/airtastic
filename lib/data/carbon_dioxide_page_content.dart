@@ -8,11 +8,9 @@ const secondParagraph =
 const thirdHeader = 'What is the ideal room carbon dioxide?';
 const thirdParagraph =
     'To minimize the risk of airborne transmission of viruses, CO2 levels should be as low as possible in all indoor spaces. It is recommended to stay close to 400 ppm, (outdoor CO2 concentration), and below 800 ppm. If the threshold is exceeded, it is recommended to leave the room and to renew the air. ';
-
-const sourceText = 'https://en.wikipedia.org/wiki/Carbon_dioxide'
-    '\n\n'
-    'https://www.nrdc.org/stories/do-we-exhale-carbon'
-    '\n\n'
-    'https://airqualitynews.com/health/co2-affects-human-health-at-lower-levels-than-previously-thought/'
-    '\n\n'
-    'https://meersens.com/indoor-air-quality-the-impact-of-co2-on-health-and-wellbeing-at-work/?lang=en';
+final List<String> url = [
+  'https://en.wikipedia.org/wiki/Carbon_dioxide',
+  'https://www.nrdc.org/stories/do-we-exhale-carbon',
+  'https://airqualitynews.com/health/co2-affects-human-health-at-lower-levels-than-previously-thought/',
+  'https://meersens.com/indoor-air-quality-the-impact-of-co2-on-health-and-wellbeing-at-work/?lang=en',
+];

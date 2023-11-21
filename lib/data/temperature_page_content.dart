@@ -8,9 +8,8 @@ const secondParagraph =
 const thirdHeader = 'What is the ideal room temperature?';
 const thirdParagraph =
     'According to the American Heritage Dictionary, room temperature is defined as around 20–22 °C';
-const sourceText =
-    'https://www.ccohs.ca/oshanswers/phys_agents/heat/heat_health.html'
-    '\n\n'
-    'https://en.wikipedia.org/wiki/Temperature'
-    '\n\n'
-    'https://www.zmescience.com/feature-post/culture/lifestyle/not-too-hot-not-too-cold-whats-the-ideal-room-temperature/';
+final List<String> url = [
+  'https://www.ccohs.ca/oshanswers/phys_agents/heat/heat_health.html',
+  'https://en.wikipedia.org/wiki/Temperature',
+  'https://www.zmescience.com/feature-post/culture/lifestyle/not-too-hot-not-too-cold-whats-the-ideal-room-temperature/',
+];

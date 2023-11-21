@@ -24,13 +24,14 @@ class _TemperaturePageState extends State<TemperaturePage> {
       body: ListView(
         shrinkWrap: true,
         children: [
-          paragraphBuilder(firstHeader, firstParagraph),
-          paragraphBuilder(secondHeader, secondParagraph),
-          paragraphBuilder(thirdHeader, thirdParagraph),
-          paragraphBuilder(
-              "Sources",
-              urlwidget(
-                  'https://www.ccohs.ca/oshanswers/phys_agents/heat/heat_health.html')),
+          paragraphBuilder(firstHeader, [firstParagraph]),
+          paragraphBuilder(secondHeader, [secondParagraph]),
+          paragraphBuilder(thirdHeader, [thirdParagraph]),
+          paragraphBuilder("Sources", [
+            urlwidget(url[0]),
+            urlwidget(url[1]),
+            urlwidget(url[2]),
+          ]),
         ],
       ),
     );

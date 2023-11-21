@@ -8,8 +8,8 @@ const secondParagraph =
 const thirdHeader = 'What is the ideal room humidity?';
 const thirdParagraph =
     'According to the Environmental Protection Agency, the best indoor relative humidity falls between 30% and 50%, and it should never exceed 60%. Other studies suggest 40% to 60% is a better range. Regardless, 60% seems to be the agreed-upon threshold for indoor humidity.';
-const sourceText = 'https://en.wikipedia.org/wiki/Humidity'
-    '\n\n'
-    'https://share.upmc.com/2014/06/effects-humidity-body/'
-    '\n\n'
-    'https://www.sleepfoundation.org/bedroom-environment/humidity-and-sleep';
+final List<String> url = [
+  'https://en.wikipedia.org/wiki/Humidity',
+  'https://share.upmc.com/2014/06/effects-humidity-body/',
+  'https://www.sleepfoundation.org/bedroom-environment/humidity-and-sleep',
+];
