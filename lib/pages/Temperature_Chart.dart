@@ -50,8 +50,8 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
         for (var entry in data) {
           DateTime timestamp = DateTime.parse(entry['timestamp']);
-          double humidity = double.parse(entry['humidity']);
-          tempList.add(TemperatureData(timestamp, humidity));
+          double temperature = double.parse(entry['temperature']);
+          tempList.add(TemperatureData(timestamp, temperature));
         }
 
         if (mounted) {
