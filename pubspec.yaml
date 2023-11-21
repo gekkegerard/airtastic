@@ -37,6 +37,7 @@ dependencies:
   collection: ^1.15.0
   fl_chart: ^0.64.0
   http: ^1.1.0
+  syncfusion_flutter_charts: ^23.1.44
 
 dev_dependencies:
   flutter_test:
