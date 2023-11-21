@@ -15,6 +15,8 @@ class HumidityChart extends StatefulWidget {
 class _HumidityChartState extends State<HumidityChart> {
   List<HumidityData> humidityDataList = [];
   late Timer _timer;
+  var standardRefreshTime = 30;
+  var loadingRefreshTime = 10; // Faster polling time while loading
 
   @override
   void initState() {
@@ -22,7 +24,8 @@ class _HumidityChartState extends State<HumidityChart> {
     // Fetch data initially
     fetchData();
     // Start a periodic timer to fetch data every 30 seconds
-    _timer = Timer.periodic(const Duration(seconds: 30), (Timer timer) {
+    _timer =
+        Timer.periodic(Duration(seconds: standardRefreshTime), (Timer timer) {
       fetchData();
     });
   }
@@ -35,6 +38,12 @@ class _HumidityChartState extends State<HumidityChart> {
   }
 
   Future<void> fetchData() async {
+    // Use loadingRefreshTime while fetching data
+    _timer =
+        Timer.periodic(Duration(seconds: loadingRefreshTime), (Timer timer) {
+      fetchData();
+    });
+
     var url =
         'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
     try {
@@ -51,6 +60,13 @@ class _HumidityChartState extends State<HumidityChart> {
 
       setState(() {
         humidityDataList = tempList;
+      });
+
+      // Switch back to the regular refresh time after data is loaded
+      _timer.cancel();
+      _timer =
+          Timer.periodic(Duration(seconds: standardRefreshTime), (Timer timer) {
+        fetchData();
       });
     } catch (e) {
       print('Failed to fetch data: $e'); // TODO: Remove this line
