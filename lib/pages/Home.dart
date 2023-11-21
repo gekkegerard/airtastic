@@ -1,8 +1,6 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:airtastic/widgets/line_chart_widget.dart';
-import 'package:airtastic/data/random_chart_data.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:syncfusion_flutter_charts/charts.dart'; // https://help.syncfusion.com/flutter/backup/chart/getting-started
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,10 +26,35 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LineChartWidget(generateRandomData()),
+                SfCartesianChart(
+                  // Initialize category axis with gap
+                  primaryXAxis: NumericAxis(),
+                  series: <ChartSeries>[
+                    // Initialize scatter series
+                    ScatterSeries<SalesData, double>(
+                      color: Colors.red[600],
+                      dataSource: [
+                        // Bind data source
+                        SalesData(1, 35),
+                        SalesData(1.5, 28),
+                        SalesData(3, 34),
+                        SalesData(6, 32),
+                        SalesData(7, 40)
+                      ],
+                      xValueMapper: (SalesData sales, _) => sales.year,
+                      yValueMapper: (SalesData sales, _) => sales.sales,
+                    )
+                  ],
+                ),
               ],
             ),
           ),
         ));
   }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final double year;
+  final double sales;
 }
