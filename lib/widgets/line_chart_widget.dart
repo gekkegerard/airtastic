@@ -63,8 +63,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  interval: 1.0,
-                  reservedSize: 44,
+                  // interval: 2.0,
+                  reservedSize: 50,
                 ),
                 axisNameSize: 18,
                 axisNameWidget: Text("Temperature in °C",
@@ -74,7 +74,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  interval: 1.0,
+                  // interval: 1.0,
                 ),
                 axisNameSize: 18,
                 axisNameWidget: Text("Wat komt hier?",
@@ -88,7 +88,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                 spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
                 isCurved: false,
                 dotData: const FlDotData(
-                  show: true,
+                  show: false,
                 ),
                 aboveBarData: BarAreaData(show: false),
               ),
@@ -100,7 +100,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   }
 
   Future getData() async {
-    var url = 'https://markus.glumm.sites.nhlstenden.com/get.php';
+    var url =
+        'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
     http.Response response = await http.get(Uri.parse(url));
     var data = jsonDecode(response.body) as List<dynamic>;
 
