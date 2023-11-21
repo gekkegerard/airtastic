@@ -68,10 +68,10 @@ class nav_bar extends StatelessWidget {
           ),
           ExpansionTile(
             leading: const Icon(Icons.info),
-            title: const Text('About'),
+            title: const Text('info'),
             children: [
               ListTile(
-                leading: const Icon(Icons.info),
+                leading: const Icon(Icons.account_circle),
                 title: const Text('About us'),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/About');

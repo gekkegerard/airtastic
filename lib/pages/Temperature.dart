@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/widgets/url_widget.dart';
 import 'package:airtastic/data/temperature_page_content.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
 
@@ -26,7 +27,10 @@ class _TemperaturePageState extends State<TemperaturePage> {
           paragraphBuilder(firstHeader, firstParagraph),
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
-          paragraphBuilder("Sources", sourceText),
+          paragraphBuilder(
+              "Sources",
+              urlwidget(
+                  'https://www.ccohs.ca/oshanswers/phys_agents/heat/heat_health.html')),
         ],
       ),
     );

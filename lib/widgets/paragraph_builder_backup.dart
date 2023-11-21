@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget paragraphBuilder(String header, dynamic paragraph) {
+Widget paragraphBuilder(String header, String paragraph) {
   return Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
@@ -12,13 +12,11 @@ Widget paragraphBuilder(String header, dynamic paragraph) {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 10.0),
-        (paragraph is String)
-            ? Text(
-                paragraph,
-                style: const TextStyle(fontSize: 18.0),
-                textAlign: TextAlign.center,
-              )
-            : paragraph,
+        Text(
+          paragraph,
+          style: const TextStyle(fontSize: 18.0),
+          textAlign: TextAlign.center,
+        ),
       ],
     ),
   );
