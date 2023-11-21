@@ -73,23 +73,12 @@ class nav_bar extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/settings');
             },
           ),
-          ExpansionTile(
+          ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
-            children: [
-              ListTile(
-                title: const Text('Submenu Item 1'),
-                onTap: () {
-                  // Handle the tap on the sub-menu item
-                },
-              ),
-              ListTile(
-                title: const Text('Submenu Item 2'),
-                onTap: () {
-                  // Handle the tap on the sub-menu item
-                },
-              ),
-            ],
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/About');
+            },
           ),
         ],
       ),
