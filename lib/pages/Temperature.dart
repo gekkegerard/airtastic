@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/widgets/url_widget.dart';
 import 'package:airtastic/data/temperature_page_content.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
 
@@ -27,6 +28,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
           paragraphBuilder("Sources", sourceText),
+          //urlwidget('test')
         ],
       ),
     );
