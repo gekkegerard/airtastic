@@ -15,6 +15,8 @@ class TemperatureChart extends StatefulWidget {
 class _TemperatureChartState extends State<TemperatureChart> {
   List<TemperatureData> temperatureDataList = [];
   late Timer _timer;
+  var refreshTime = 30;
+  var loadingRefreshTime = 10;
 
   @override
   void initState() {
@@ -22,7 +24,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
     // Fetch data initially
     fetchData();
     // Start a periodic timer to fetch data every 30 seconds
-    _timer = Timer.periodic(const Duration(seconds: 30), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
       fetchData();
     });
   }
@@ -35,26 +37,39 @@ class _TemperatureChartState extends State<TemperatureChart> {
   }
 
   Future<void> fetchData() async {
-    var url =
-        'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
-    try {
-      http.Response response = await http.get(Uri.parse(url));
-      var data = jsonDecode(response.body) as List<dynamic>;
+    // Use loadingRefreshTime while fetching data
+    _timer = Timer.periodic(Duration(seconds: loadingRefreshTime),
+        (Timer timer) async {
+      try {
+        var url =
+            'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
+        http.Response response = await http.get(Uri.parse(url));
+        var data = jsonDecode(response.body) as List<dynamic>;
 
-      List<TemperatureData> tempList = [];
+        List<TemperatureData> tempList = [];
 
-      for (var entry in data) {
-        DateTime timestamp = DateTime.parse(entry['timestamp']);
-        double temperature = double.parse(entry['temperature']);
-        tempList.add(TemperatureData(timestamp, temperature));
+        for (var entry in data) {
+          DateTime timestamp = DateTime.parse(entry['timestamp']);
+          double humidity = double.parse(entry['humidity']);
+          tempList.add(TemperatureData(timestamp, humidity));
+        }
+
+        if (mounted) {
+          // Check if the widget is still in the widget tree before calling setState
+          setState(() {
+            temperatureDataList = tempList;
+          });
+        }
+
+        // Switch back to the regular refresh time after data is loaded
+        _timer.cancel();
+        _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
+          fetchData();
+        });
+      } catch (e) {
+        print('Failed to fetch data: $e');
       }
-
-      setState(() {
-        temperatureDataList = tempList;
-      });
-    } catch (e) {
-      print('Failed to fetch data: $e'); // TODO: Remove this line
-    }
+    });
   }
 
   @override
