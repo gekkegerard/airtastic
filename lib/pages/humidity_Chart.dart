@@ -15,8 +15,8 @@ class HumidityChart extends StatefulWidget {
 class _HumidityChartState extends State<HumidityChart> {
   List<HumidityData> humidityDataList = [];
   late Timer _timer;
-  var standardRefreshTime = 30;
-  var loadingRefreshTime = 10; // Faster polling time while loading
+  var refreshTime = 30;
+  var loadingRefreshTime = 15;
 
   @override
   void initState() {
@@ -24,8 +24,7 @@ class _HumidityChartState extends State<HumidityChart> {
     // Fetch data initially
     fetchData();
     // Start a periodic timer to fetch data every 30 seconds
-    _timer =
-        Timer.periodic(Duration(seconds: standardRefreshTime), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
       fetchData();
     });
   }
@@ -39,38 +38,38 @@ class _HumidityChartState extends State<HumidityChart> {
 
   Future<void> fetchData() async {
     // Use loadingRefreshTime while fetching data
-    _timer =
-        Timer.periodic(Duration(seconds: loadingRefreshTime), (Timer timer) {
-      fetchData();
-    });
+    _timer = Timer.periodic(Duration(seconds: loadingRefreshTime),
+        (Timer timer) async {
+      try {
+        var url =
+            'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
+        http.Response response = await http.get(Uri.parse(url));
+        var data = jsonDecode(response.body) as List<dynamic>;
 
-    var url =
-        'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
-    try {
-      http.Response response = await http.get(Uri.parse(url));
-      var data = jsonDecode(response.body) as List<dynamic>;
+        List<HumidityData> tempList = [];
 
-      List<HumidityData> tempList = [];
+        for (var entry in data) {
+          DateTime timestamp = DateTime.parse(entry['timestamp']);
+          double humidity = double.parse(entry['humidity']);
+          tempList.add(HumidityData(timestamp, humidity));
+        }
 
-      for (var entry in data) {
-        DateTime timestamp = DateTime.parse(entry['timestamp']);
-        double temperature = double.parse(entry['humidity']);
-        tempList.add(HumidityData(timestamp, temperature));
+        if (mounted) {
+          // Check if the widget is still in the widget tree before calling setState
+          setState(() {
+            humidityDataList = tempList;
+          });
+        }
+
+        // Switch back to the regular refresh time after data is loaded
+        _timer.cancel();
+        _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
+          fetchData();
+        });
+      } catch (e) {
+        print('Failed to fetch data: $e');
       }
-
-      setState(() {
-        humidityDataList = tempList;
-      });
-
-      // Switch back to the regular refresh time after data is loaded
-      _timer.cancel();
-      _timer =
-          Timer.periodic(Duration(seconds: standardRefreshTime), (Timer timer) {
-        fetchData();
-      });
-    } catch (e) {
-      print('Failed to fetch data: $e'); // TODO: Remove this line
-    }
+    });
   }
 
   @override
