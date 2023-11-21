@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:airtastic/widgets/scatter_chart_widget.dart';
 
 class TemperatureChart extends StatefulWidget {
   const TemperatureChart({super.key});
@@ -15,11 +15,6 @@ class TemperatureChart extends StatefulWidget {
 class _TemperatureChartState extends State<TemperatureChart> {
   List<TemperatureData> temperatureDataList = [];
   late Timer _timer;
-  final TooltipBehavior _tooltipBehavior = TooltipBehavior(
-    enable: true,
-    header: "Measurement",
-    format: 'Time: point.x\nTemp: point.y°C',
-  );
 
   @override
   void initState() {
@@ -67,7 +62,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
     return Scaffold(
       drawer: const nav_bar(),
       appBar: AppBar(
-        title: const Text('Airtastic'),
+        title: const Text('Temperature'),
         centerTitle: true,
         backgroundColor: Colors.red[600],
       ),
@@ -78,60 +73,14 @@ class _TemperatureChartState extends State<TemperatureChart> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               temperatureDataList.isNotEmpty
-                  ? /*SfCartesianChart(
-                      title: ChartTitle(
-                          text: 'Temperature in °C',
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-                      primaryXAxis: DateTimeAxis(),
-                      series: <ChartSeries>[
-                        ScatterSeries<TemperatureData, DateTime>(
-                          color: Colors.red[600],
-                          dataSource: temperatureDataList,
-                          xValueMapper: (TemperatureData data, _) =>
-                              data.timestamp,
-                          yValueMapper: (TemperatureData data, _) =>
-                              data.temperature,
-                        ),
-                      ],
-                    )*/
-
-                  // Welke graph is beter???
-                  SfCartesianChart(
-                      title: ChartTitle(
-                          text: 'Temperature',
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-
-                      primaryXAxis: DateTimeAxis(
-                        title: AxisTitle(
-                          text: 'Time',
-                        ),
-                      ),
-                      primaryYAxis: NumericAxis(
-                        title: AxisTitle(
-                          text: 'Temperature (°C)',
-                        ),
-                      ),
-                      tooltipBehavior: _tooltipBehavior, // Enable tooltip
-
-                      series: <ChartSeries>[
-                        LineSeries<TemperatureData, DateTime>(
-                          enableTooltip: true, // Make the graph interactive
-                          color: Colors.red[600],
-                          dataSource: temperatureDataList,
-                          xValueMapper: (TemperatureData data, _) =>
-                              data.timestamp,
-                          yValueMapper: (TemperatureData data, _) =>
-                              data.temperature,
-                          width: 5, // line width
-                          markerSettings: const MarkerSettings(
-                              shape: DataMarkerType.diamond,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              isVisible:
-                                  true), // This line makes data points visible
-                        ),
-                      ],
+                  ? DataChart(
+                      dataPoints: temperatureDataList
+                          .map((data) => data.toDataPoint())
+                          .toList(),
+                      title: 'Temperatures Chart',
+                      xAxisLabel: 'Time',
+                      yAxisLabel: 'Temperature (°C)',
+                      yAxisUnit: '°C',
                     )
                   : SizedBox(
                       height: 200.0,
@@ -161,4 +110,9 @@ class TemperatureData {
   final double temperature;
 
   TemperatureData(this.timestamp, this.temperature);
+
+  // Conversion function
+  DataPoint toDataPoint() {
+    return DataPoint(timestamp, temperature);
+  }
 }
