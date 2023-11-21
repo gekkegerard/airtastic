@@ -32,38 +32,31 @@ class nav_bar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.replay_outlined),
-            title: const Text('Connected devices'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/connected_devices');
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.thermostat),
             title: const Text('Temperature'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Temperature');
+              Navigator.pushReplacementNamed(context, '/Temperature_Chart');
             },
           ),
           ListTile(
             leading: const Icon(Icons.water_drop),
             title: const Text('Humidity'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Humidity');
+              Navigator.pushReplacementNamed(context, '/Humidity_Chart');
             },
           ),
           ListTile(
             leading: const Icon(Icons.dangerous),
             title: const Text('Ozone'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Ozone');
+              Navigator.pushReplacementNamed(context, '/Ozone_Chart');
             },
           ),
           ListTile(
             leading: const Icon(Icons.co2),
             title: const Text('Carbon dioxide'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/CO2');
+              Navigator.pushReplacementNamed(context, '/CO2_Chart');
             },
           ),
           ListTile(
@@ -78,15 +71,38 @@ class nav_bar extends StatelessWidget {
             title: const Text('About'),
             children: [
               ListTile(
-                title: const Text('Submenu Item 1'),
+                leading: const Icon(Icons.info),
+                title: const Text('About us'),
                 onTap: () {
-                  // Handle the tap on the sub-menu item
+                  Navigator.pushReplacementNamed(context, '/About');
                 },
               ),
               ListTile(
-                title: const Text('Submenu Item 2'),
+                leading: const Icon(Icons.thermostat),
+                title: const Text('Temperature'),
                 onTap: () {
-                  // Handle the tap on the sub-menu item
+                  Navigator.pushReplacementNamed(context, '/Temperature');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.water_drop),
+                title: const Text('Humidity'),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/Humidity');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.dangerous),
+                title: const Text('Ozone'),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/Ozone');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.co2),
+                title: const Text('Carbon dioxide'),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/CO2');
                 },
               ),
             ],
