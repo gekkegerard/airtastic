@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/widgets/url_widget.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
 import 'package:airtastic/data/ozone_page_content.dart';
 
@@ -23,10 +24,16 @@ class _OzoneState extends State<Ozone> {
       body: ListView(
         shrinkWrap: true,
         children: [
-          paragraphBuilder(firstHeader, firstParagraph),
-          paragraphBuilder(secondHeader, secondParagraph),
-          paragraphBuilder(thirdHeader, thirdParagraph),
-          paragraphBuilder("Sources", sourceText),
+          paragraphBuilder(firstHeader, [firstParagraph]),
+          paragraphBuilder(secondHeader, [secondParagraph]),
+          paragraphBuilder(thirdHeader, [thirdParagraph]),
+          paragraphBuilder("Sources", 
+          [
+            urlwidget(url[1]),
+            urlwidget(url[2]),
+          ]
+            ),
+          
         ],
       ),
     );
