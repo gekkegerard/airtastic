@@ -28,9 +28,9 @@ class _TemperaturePageState extends State<TemperaturePage> {
           paragraphBuilder(secondHeader, [secondParagraph]),
           paragraphBuilder(thirdHeader, [thirdParagraph]),
           paragraphBuilder("Sources", [
+            urlwidget(url[0]),
             urlwidget(url[1]),
             urlwidget(url[2]),
-            urlwidget(url[3]),
           ]),
         ],
       ),

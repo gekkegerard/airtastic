@@ -27,13 +27,10 @@ class _OzoneState extends State<Ozone> {
           paragraphBuilder(firstHeader, [firstParagraph]),
           paragraphBuilder(secondHeader, [secondParagraph]),
           paragraphBuilder(thirdHeader, [thirdParagraph]),
-          paragraphBuilder("Sources", 
-          [
+          paragraphBuilder("Sources", [
+            urlwidget(url[0]),
             urlwidget(url[1]),
-            urlwidget(url[2]),
-          ]
-            ),
-          
+          ]),
         ],
       ),
     );
