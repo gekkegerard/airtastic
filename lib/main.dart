@@ -1,4 +1,3 @@
-import 'package:airtastic/pages/co2_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:airtastic/pages/home.dart';
 import 'package:airtastic/pages/loading.dart';
