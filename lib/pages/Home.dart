@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -41,8 +42,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const nav_bar(),
       appBar: AppBar(
-        title: const Text('Temperature Chart'),
+        title: const Text('Airtastic'),
         centerTitle: true,
         backgroundColor: Colors.red[600],
       ),
