@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
-import 'package:airtastic/widgets/paragraph_builder.dart';
-import 'package:airtastic/data/ozone_page_content.dart';
 
 class CO2Chart extends StatefulWidget {
   const CO2Chart({super.key});

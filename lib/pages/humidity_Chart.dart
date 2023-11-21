@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
-import 'package:airtastic/data/humidity_page_content.dart';
-import 'package:airtastic/widgets/paragraph_builder.dart';
 
 class HumidityChart extends StatefulWidget {
   const HumidityChart({super.key});
