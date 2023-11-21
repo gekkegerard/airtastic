@@ -19,6 +19,7 @@ class DataChart extends StatelessWidget {
     required this.yAxisUnit,
   }) : super(key: key) {
     _tooltipBehavior = TooltipBehavior(
+      duration: 5000,
       enable: true,
       header: "Measurement",
       format: 'Time: point.x\nValue: point.y$yAxisUnit',
