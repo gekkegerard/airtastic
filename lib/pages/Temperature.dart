@@ -27,8 +27,10 @@ class _TemperaturePageState extends State<TemperaturePage> {
           paragraphBuilder(firstHeader, firstParagraph),
           paragraphBuilder(secondHeader, secondParagraph),
           paragraphBuilder(thirdHeader, thirdParagraph),
-          paragraphBuilder("Sources", sourceText),
-          //urlwidget('test')
+          paragraphBuilder(
+              "Sources",
+              urlwidget(
+                  'https://www.ccohs.ca/oshanswers/phys_agents/heat/heat_health.html')),
         ],
       ),
     );
