@@ -87,7 +87,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
         : DateTime.now();
 
     return Scaffold(
-      drawer: const nav_bar(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Temperature'),
         centerTitle: true,

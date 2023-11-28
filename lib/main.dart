@@ -5,11 +5,11 @@ import 'package:airtastic/pages/ozone.dart';
 import 'package:airtastic/pages/ozone_chart.dart';
 import 'package:airtastic/pages/settings.dart';
 import 'package:airtastic/pages/temperature.dart';
-import 'package:airtastic/pages/Temperature_chart.dart';
+import 'package:airtastic/pages/temperature_chart.dart';
 import 'package:airtastic/pages/humidity.dart';
 import 'package:airtastic/pages/humidity_chart.dart';
 import 'package:airtastic/pages/about.dart';
-import 'package:airtastic/pages/CO2.dart';
+import 'package:airtastic/pages/co2.dart';
 import 'package:airtastic/pages/co2_chart.dart';
 
 void main() => runApp(MaterialApp(

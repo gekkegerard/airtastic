@@ -15,7 +15,7 @@ class _HumidityState extends State<Humidity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const nav_bar(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text(navBarHeader),
         centerTitle: true,

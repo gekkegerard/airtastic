@@ -13,7 +13,7 @@ class _DevicesState extends State<Devices> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: const Text('Devices'),
-        drawer: const nav_bar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text("Devices"),
           centerTitle: true,

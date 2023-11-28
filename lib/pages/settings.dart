@@ -13,7 +13,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: const Text('Settings'),
-        drawer: const nav_bar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text("Settings"),
           centerTitle: true,
