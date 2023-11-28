@@ -42,7 +42,7 @@ class _HumidityChartState extends State<HumidityChart> {
         (Timer timer) async {
       try {
         var url =
-            'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php';
+            'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // Get all the data from the last day of measuremtens
         http.Response response = await http.get(Uri.parse(url));
         var data = jsonDecode(response.body) as List<dynamic>;
 
