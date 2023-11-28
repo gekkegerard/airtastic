@@ -7,7 +7,7 @@ import 'package:airtastic/pages/temperature.dart';
 import 'package:airtastic/pages/humidity.dart';
 import 'package:airtastic/pages/about.dart';
 import 'package:airtastic/z_old_code/connected_devices.dart';
-import 'package:airtastic/pages/CO2.dart';
+import 'package:airtastic/pages/co2.dart';
 
 
 void main() => runApp(MaterialApp(
