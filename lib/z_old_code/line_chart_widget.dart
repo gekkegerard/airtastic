@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:airtastic/data/random_chart_data.dart';
+import 'package:airtastic/z_old_code/random_chart_data.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
