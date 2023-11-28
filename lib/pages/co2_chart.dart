@@ -13,7 +13,7 @@ class _CO2ChartState extends State<CO2Chart> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: const Text('CO2 Chart'),
-        drawer: const nav_bar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text("CO2 Chart"),
           centerTitle: true,

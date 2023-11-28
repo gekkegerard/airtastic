@@ -15,7 +15,7 @@ class _CO2State extends State<CO2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const nav_bar(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text(navBarHeader),
         centerTitle: true,

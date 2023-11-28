@@ -75,7 +75,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const nav_bar(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Temperature'),
         centerTitle: true,

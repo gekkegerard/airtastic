@@ -13,7 +13,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: const Text('About'),
-        drawer: const nav_bar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text("About"),
           centerTitle: true,
