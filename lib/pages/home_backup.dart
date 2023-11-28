@@ -1,7 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:airtastic/z_old_code/line_chart_widget.dart';
-import 'package:airtastic/data/random_chart_data.dart';
+import 'package:airtastic/z_old_code/random_chart_data.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 
 class Home extends StatefulWidget {
