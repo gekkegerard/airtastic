@@ -24,6 +24,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
   var loadingRefreshTime = 10;
   bool isGraphLoaded = false; // Used to display the DatePickerWidget
   DateTime? selectedDate; // Date selected by the user for the graph
+  DateTime? dateFromGraphCurrently;
 
   @override
   void initState() {
@@ -118,7 +119,13 @@ class _TemperatureChartState extends State<TemperatureChart> {
       } else {
         // If no date is selected, use GET request to get the last day of measurements
         print("Making get request"); // DEBUG
+
+        // Making a GET request, gets you the last day of measurements
         response = await http.get(Uri.parse(url));
+
+        // Extract the date from the GET response body
+        var data = jsonDecode(response.body) as List<dynamic>;
+        dateFromGraphCurrently = DateTime.parse(data[0]['timestamp']);
       }
 
       // Successful communication with the server
@@ -127,6 +134,11 @@ class _TemperatureChartState extends State<TemperatureChart> {
         if (response.body.trim() != '[]') {
           print("Response not empty"); // DEBUG
           var data = jsonDecode(response.body) as List<dynamic>;
+
+          // Extract the date from the POST response body
+          dateFromGraphCurrently = DateTime.parse(data[0]['timestamp']);
+
+          // Create a list to store the temperature data
           List<TemperatureData> tempList = [];
 
           for (var entry in data) {
@@ -254,13 +266,13 @@ class _TemperatureChartState extends State<TemperatureChart> {
                     TimePickerWidget(
                       onTimeSelected: (selectedTimeRange) {
                         print(
-                            "Selected Start Time: ${selectedTimeRange.startTime}");
+                            "Selected Start Time: ${selectedTimeRange.startTime}"); // DEBUG
                         print(
-                            "Selected End Time: ${selectedTimeRange.endTime}");
-
+                            "Selected End Time: ${selectedTimeRange.endTime}"); // DEBUG
+                        print("Date: $selectedDate"); // DEBUG
                         // After the user has selected a time range, update the graph
                         fetchData(
-                          selectedDate: selectedDate,
+                          selectedDate: dateFromGraphCurrently,
                           selectedStartTime: selectedTimeRange.startTime,
                           selectedEndTime: selectedTimeRange.endTime,
                         );
