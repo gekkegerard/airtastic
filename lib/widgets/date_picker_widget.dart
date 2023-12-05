@@ -13,6 +13,9 @@ class DatePickerWidget extends StatefulWidget {
 class _DatePickerWidgetState extends State<DatePickerWidget> {
   DateTime _selectedDate = DateTime.now();
 
+  // Add a variable to store the last selected date
+  DateTime? _lastSelectedDate;
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime dateNow = DateTime.now();
     final DateTime? picked = await showDatePicker(
@@ -31,9 +34,18 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         );
       },
     );
+
+    // Check if the picked date is the same as the last selected date
+    if (picked != null && picked == _lastSelectedDate) {
+      // If it is the same date, force the onDateSelected callback to trigger
+      widget.onDateSelected(_selectedDate);
+    }
+
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        // Update the last selected date
+        _lastSelectedDate = picked;
       });
       widget.onDateSelected(_selectedDate);
     }
@@ -46,7 +58,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       style: OutlinedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: Colors.red[600],
-        // side: const BorderSide(color: Colors.black),
       ),
       child: const Text('Select date'),
     );

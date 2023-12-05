@@ -14,11 +14,14 @@ class TemperatureChart extends StatefulWidget {
 }
 
 class _TemperatureChartState extends State<TemperatureChart> {
+  // Create a GlobalKey to access the current context
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<TemperatureData> temperatureDataList = [];
   late Timer _timer;
   var refreshTime = 30;
   var loadingRefreshTime = 10;
-  bool isGraphLoaded = false;
+  bool isGraphLoaded = false; // Used to display the DatePickerWidget
 
   @override
   void initState() {
@@ -28,12 +31,14 @@ class _TemperatureChartState extends State<TemperatureChart> {
       if (success) {
         // If initial fetch is successful, start periodic timer with refresh time of 30 seconds
         _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
+          print("Triggered 30 second timer");
           fetchData();
         });
       } else {
         // If initial fetch fails, continue with periodic timer using loading refresh time of 10 seconds
         _timer = Timer.periodic(Duration(seconds: loadingRefreshTime),
             (Timer timer) {
+          print("Triggered 10 second timer");
           fetchData();
         });
       }
@@ -47,27 +52,104 @@ class _TemperatureChartState extends State<TemperatureChart> {
     super.dispose();
   }
 
-  Future<bool> fetchData() async {
+  Future<bool> fetchData({DateTime? selectedDate}) async {
     try {
       var url =
-          'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // Get all the data from the last day of measuremtens
-      http.Response response = await http.get(Uri.parse(url));
-      var data = jsonDecode(response.body) as List<dynamic>;
+          'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // GET = last day of measurements, POST = specific date
+      http.Response? response;
 
-      List<TemperatureData> tempList = [];
+      // If a date is passed on to the function, use POST request with the selected date
+      if (selectedDate != null) {
+        // Create a body for the request
+        Map<String, String> body = {
+          'primaryDate':
+              '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}'
+        };
 
-      for (var entry in data) {
-        DateTime timestamp = DateTime.parse(entry['timestamp']);
-        double temperature = double.parse(entry['temperature']);
-        tempList.add(TemperatureData(timestamp, temperature));
+        // Encode the body to a string so it can be sent with the request
+        String encodedBody = body.keys
+            .map((key) => '$key=${Uri.encodeComponent(body[key]!)}')
+            .join('&');
+
+        // Make the POST request
+        print("Making post request");
+        response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: encodedBody,
+        );
+
+        // The selected date of the user is not the current date, cancel auto refresh since there will not be any new data
+        if (selectedDate.day != DateTime.now().day) {
+          print("Cancelling timer");
+          _timer.cancel();
+          // User has selected the current date and there is date from today available, restart the timer if it is not already active
+        } else if (selectedDate.day == DateTime.now().day &&
+            _timer.isActive == false &&
+            response.body.trim() != '[]') {
+          print("Restarting timer");
+          _timer =
+              Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
+            print("Triggered 30 second timer");
+            fetchData();
+          });
+        }
+      } else {
+        // If no date is selected, use GET request to get the last day of measurements
+        print("Making get request");
+        response = await http.get(Uri.parse(url));
       }
 
-      if (mounted) {
-        // Check if the widget is still in the widget tree before calling setState
-        setState(() {
-          temperatureDataList = tempList;
-          isGraphLoaded = true; // Set to true when the graph is loaded
-        });
+      // Successful communication with the server
+      if (response.statusCode == 200) {
+        // Check if the response body is not empty
+        if (response.body.trim() != '[]') {
+          print("not empty");
+          var data = jsonDecode(response.body) as List<dynamic>;
+          List<TemperatureData> tempList = [];
+
+          for (var entry in data) {
+            DateTime timestamp = DateTime.parse(entry['timestamp']);
+            double temperature = double.parse(entry['temperature']);
+            tempList.add(TemperatureData(timestamp, temperature));
+          }
+
+          // Check if the widget is still in the widget tree before calling setState
+          if (mounted) {
+            setState(() {
+              temperatureDataList = tempList;
+              isGraphLoaded = true; // Used to display the DatePickerWidget
+            });
+          }
+          // If the response body is empty, show a pop-up dialog
+        } else {
+          print("Making pop-up");
+          // Show a pop-up dialog only if it hasn't been shown before or a new date is selected
+          if (selectedDate != null) {
+            showDialog(
+              context: _scaffoldKey.currentContext!,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('No Data Available'),
+                  content: const Text(
+                      'There are no measurements for the selected day.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      } else {
+        // Handle non-200 status code (error)
+        print('Error: ${response.statusCode}');
+        // You may want to display an error message or handle it in some way
       }
 
       // Return true to indicate a successful fetch
@@ -87,6 +169,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
         : DateTime.now();
 
     return Scaffold(
+      key: _scaffoldKey,
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Temperature'),
@@ -135,10 +218,9 @@ class _TemperatureChartState extends State<TemperatureChart> {
                     const SizedBox(height: 20.0),
                     DatePickerWidget(
                       onDateSelected: (selectedDate) {
-                        // Handle the selected date
-                        print(selectedDate);
-                        // You may want to update the data based on the selected date
-                        // Implement logic to fetch data for the selected date
+                        print("Calling Datepickerwidget");
+                        // After the user has selected a date, update the graph
+                        fetchData(selectedDate: selectedDate);
                       },
                     ),
                   ],
