@@ -19,6 +19,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime dateNow = DateTime.now();
     final DateTime? picked = await showDatePicker(
+      helpText: "Show measurements of a specific date",
       context: context,
       initialDate: dateNow,
       firstDate: DateTime(2023, 11, 16),
