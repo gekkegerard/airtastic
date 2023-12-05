@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
+import 'package:airtastic/data/about_us_page_content.dart';
+import 'package:airtastic/widgets/paragraph_builder.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -12,12 +14,21 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: const Text('About'),
-        drawer: const NavBar(),
-        appBar: AppBar(
-          title: const Text("About"),
-          centerTitle: true,
-          backgroundColor: Colors.red[600],
-        ));
+      drawer: const NavBar(),
+      appBar: AppBar(
+        title: const Text(navBarHeader),
+        centerTitle: true,
+        backgroundColor: Colors.red[600],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          paragraphBuilder(firstHeader, [firstParagraph]),
+          paragraphBuilder("", [firstParagraph_2]),
+          paragraphBuilder(secondHeader, [secondParagraph]),
+          paragraphBuilder(thirdHeader, [thirdParagraph]),
+        ],
+      ),
+    );
   }
 }
