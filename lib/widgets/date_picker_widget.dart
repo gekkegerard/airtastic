@@ -11,19 +11,47 @@ class DatePickerWidget extends StatefulWidget {
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
+  // Initialize the selected user date with the current date
   DateTime _selectedDate = DateTime.now();
+
+  // Assume these dates come from the server
+  List<String> datesFromServer = [
+    '2023-12-02',
+    '2023-11-30',
+    '2023-11-26',
+    '2023-11-18',
+    '2023-11-17',
+    '2023-11-16'
+  ];
+
+  // Parse the dates and store them in a list
+  List<DateTime> selectableDates = [];
 
   // Add a variable to store the last selected date
   DateTime? _lastSelectedDate;
 
+  @override
+  void initState() {
+    super.initState();
+    selectableDates =
+        datesFromServer.map((date) => DateTime.parse(date)).toList();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime dateNow = DateTime.now();
     final DateTime? picked = await showDatePicker(
-      helpText: "Show measurements of a specific date",
+      helpText: "Show measurements of a date",
       context: context,
-      initialDate: dateNow,
+      initialDate: selectableDates[0],
       firstDate: DateTime(2023, 11, 16),
       lastDate: dateNow,
+      selectableDayPredicate: (DateTime date) {
+        // Only allow dates from the server to be selectable
+        return selectableDates.any((selectableDate) =>
+            date.year == selectableDate.year &&
+            date.month == selectableDate.month &&
+            date.day == selectableDate.day);
+      },
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
