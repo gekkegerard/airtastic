@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
   late double temperature = 20;
   late double ozone = 20;
   late double humidity = 20;
-  late int valid;
+  late int valid = 0;
 
   Future<bool> fetchData() async {
     try {
