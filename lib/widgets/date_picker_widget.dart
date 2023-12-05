@@ -59,7 +59,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.red[600],
       ),
-      child: const Text('Select date'),
+      child: const Text('Select Date'),
     );
   }
 }
