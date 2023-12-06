@@ -24,7 +24,8 @@ class _TemperatureChartState extends State<TemperatureChart> {
   var loadingRefreshTime = 10;
   bool isGraphLoaded = false; // Used to display the DatePickerWidget
   DateTime? selectedDate; // Date selected by the user for the graph
-  DateTime? dateFromGraphCurrently;
+  DateTime? dateFromGraphCurrently; // Date of the first data point in the graph
+  TimeRange? currentGraphTimeRange; // Time range of the current graph
 
   @override
   void initState() {
@@ -157,15 +158,22 @@ class _TemperatureChartState extends State<TemperatureChart> {
           // If the response body is empty, show a pop-up dialog
         } else {
           print("Making pop-up"); // DEBUG
+
           // Show a pop-up dialog only if it hasn't been shown before or a new date is selected
           if (selectedDate != null) {
+            // Reset the current time range
+            setState(() {
+              currentGraphTimeRange = null;
+            });
+
+            // Show a pop-up dialog
             showDialog(
               context: _scaffoldKey.currentContext!,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('No Data Available'),
                   content: const Text(
-                      'There are no measurements for the selected day.'),
+                      'Something went wrong, please try again. Make sure you select the time range chronologically'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
@@ -246,40 +254,76 @@ class _TemperatureChartState extends State<TemperatureChart> {
                     ),
               if (temperatureDataList.isNotEmpty &&
                   isGraphLoaded) // Display DatePickerWidget only when the graph is loaded
-                Column(
-                  children: [
-                    const SizedBox(height: 20.0),
-                    DatePickerWidget(
-                      onDateSelected: (date) {
-                        print("Calling Datepickerwidget"); // DEBUG
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(35.0, 10, 35.0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: DatePickerWidget(
+                          onDateSelected: (date) {
+                            print("Calling Datepickerwidget"); // DEBUG
 
-                        // Save the selected date for later use in the TimePickerWidget
-                        setState(() {
-                          selectedDate = date;
-                        });
+                            // Save the selected date for later use in the TimePickerWidget
+                            setState(() {
+                              selectedDate = date;
+                            });
 
-                        // After the user has selected a date, update the graph
-                        fetchData(selectedDate: selectedDate);
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    TimePickerWidget(
-                      onTimeSelected: (selectedTimeRange) {
-                        print(
-                            "Selected Start Time: ${selectedTimeRange.startTime}"); // DEBUG
-                        print(
-                            "Selected End Time: ${selectedTimeRange.endTime}"); // DEBUG
-                        print("Date: $selectedDate"); // DEBUG
-                        // After the user has selected a time range, update the graph
-                        fetchData(
-                          selectedDate: dateFromGraphCurrently,
-                          selectedStartTime: selectedTimeRange.startTime,
-                          selectedEndTime: selectedTimeRange.endTime,
-                        );
-                      },
-                    ),
-                  ],
+                            // Reset the current time range
+                            setState(() {
+                              currentGraphTimeRange = null;
+                            });
+
+                            // After the user has selected a date, update the graph
+                            fetchData(selectedDate: selectedDate);
+                          },
+                        ),
+                      ),
+                      // Width between the DatePickerWidget and TimePickerWidget buttons
+                      const SizedBox(width: 20.0),
+                      Expanded(
+                        child: TimePickerWidget(
+                          onTimeSelected: (selectedTimeRange) {
+                            print(
+                                "Selected Start Time: ${selectedTimeRange.startTime}"); // DEBUG
+                            print(
+                                "Selected End Time: ${selectedTimeRange.endTime}"); // DEBUG
+                            print("Date: $selectedDate"); // DEBUG
+
+                            // Pass the selected time range to page itself
+                            setState(() {
+                              currentGraphTimeRange = selectedTimeRange;
+                            });
+                            // After the user has selected a time range, update the graph
+                            fetchData(
+                              selectedDate: dateFromGraphCurrently,
+                              selectedStartTime: selectedTimeRange.startTime,
+                              selectedEndTime: selectedTimeRange.endTime,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              // Height between the buttons and the text
+              const SizedBox(height: 15.0),
+              if (currentGraphTimeRange != null && isGraphLoaded)
+                Text(
+                  'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}',
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                )
+              else if (isGraphLoaded)
+                const Text(
+                  "Currently showing all measurements of the day.",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                )
             ],
           ),
         ),
