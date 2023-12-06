@@ -15,7 +15,8 @@ class _SettingsState extends State<Settings> {
   bool _pushNotificationEnabled = false;
   String _selectedColor = 'Light'; // Default color theme
   int _selectedSyncInterval = 10; // Default sync interval in minutes
-  List<String> list = <String>['Light', 'Dark', 'Rainbow'];
+  List<String> colorThemeList = <String>['Light', 'Dark', 'Rainbow'];
+  List<int> syncIntervalList = <int>[1, 10, 15, 30, 60, 120];
 
   @override
   Widget build(BuildContext context) {
@@ -77,56 +78,29 @@ class _SettingsState extends State<Settings> {
         ),
         ListTile(
           title: const Text('Background Sync Interval'),
-          trailing: DropdownButton<int>(
-            value: _selectedSyncInterval,
-            onChanged: (int? newValue) {
+          trailing: CustomDropdown(
+            items:
+                syncIntervalList.map((int value) => value.toString()).toList(),
+            initialSelection: _selectedSyncInterval.toString(),
+            onSelected: (String value) {
               setState(() {
-                _selectedSyncInterval = newValue!;
+                _selectedSyncInterval = int.parse(value);
               });
             },
-            items: <int>[1, 10, 15, 30, 60, 120]
-                .map<DropdownMenuItem<int>>((int value) {
-              return DropdownMenuItem<int>(
-                value: value,
-                child: Text('$value minutes'),
-              );
-            }).toList(),
           ),
         ),
         ListTile(
           title: const Text('Color Theme'),
-          trailing: DropdownButton<String>(
-            value: _selectedColor,
-            onChanged: (String? newValue) {
+          trailing: CustomDropdown(
+            items: colorThemeList,
+            initialSelection: _selectedColor,
+            onSelected: (String value) {
               setState(() {
-                _selectedColor = newValue!;
+                _selectedColor = value;
               });
             },
-            items: <String>['Light', 'Dark', 'Rainbow']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           ),
         ),
-        ListTile(
-            title: const Text('Color Theme V2'),
-            trailing: DropdownMenu<String>(
-              initialSelection: list.first,
-              onSelected: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  String dropdownValue = list.first;
-                  dropdownValue = value!;
-                });
-              },
-              dropdownMenuEntries:
-                  list.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
-              }).toList(),
-            )),
       ],
     );
   }
