@@ -20,9 +20,11 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
   List<TemperatureData> temperatureDataList = [];
   late Timer _timer;
-  var refreshTime = 30;
-  var loadingRefreshTime = 10;
-  bool isGraphLoaded = false; // Used to display the DatePickerWidget
+  var refreshTime = 30; // Normal refresh time of the graph
+  var loadingRefreshTime =
+      10; // Faster refresh time of the graph when troubles occur with the server
+  bool isGraphLoaded =
+      false; // Flag used to indicate that the graph is loaded for the date picker widget
   DateTime? selectedDate; // Date selected by the user for the graph
   DateTime? dateFromGraphCurrently; // Date of the first data point in the graph
   TimeRange? currentGraphTimeRange; // Time range of the current graph
@@ -141,7 +143,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
           }
           // If the response body is empty, show a pop-up dialog
         } else {
-          print("Making pop-up"); // DEBUG
+          print("Showing the pop-up"); // DEBUG
 
           // Show a pop-up dialog to indicate that there is no data available
           if (selectedDate != null) {
