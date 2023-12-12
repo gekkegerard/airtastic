@@ -24,9 +24,9 @@ class _AboutState extends State<About> {
         shrinkWrap: true,
         children: [
           paragraphBuilder(firstHeader, [firstParagraph]),
-          paragraphBuilder("", [firstParagraph_2]),
           paragraphBuilder(secondHeader, [secondParagraph]),
           paragraphBuilder(thirdHeader, [thirdParagraph]),
+          paragraphBuilder(fourthHeader, [fourthParagraph])
         ],
       ),
     );

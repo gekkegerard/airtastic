@@ -68,7 +68,7 @@ class NavBar extends StatelessWidget {
           ),
           ExpansionTile(
             leading: const Icon(Icons.info),
-            title: const Text('info'),
+            title: const Text('Info'),
             children: [
               ListTile(
                 leading: const Icon(Icons.account_circle),
