@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:airtastic/widgets/scatter_chart_widget.dart';
 import 'package:airtastic/pages/settings.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

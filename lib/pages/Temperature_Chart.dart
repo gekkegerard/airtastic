@@ -294,7 +294,14 @@ class _TemperatureChartState extends State<TemperatureChart> {
                             setState(() {
                               print(
                                   'selectedTimeRange = $selectedTimeRange'); // DEBUG
-                              currentGraphTimeRange = selectedTimeRange;
+
+                              // If the starting time is before the ending time, update the current time range
+                              if (selectedTimeRange.startTime.hour <=
+                                      selectedTimeRange.endTime.hour &&
+                                  selectedTimeRange.startTime.minute <
+                                      selectedTimeRange.endTime.minute) {
+                                currentGraphTimeRange = selectedTimeRange;
+                              }
                             });
                             // After the user has selected a time range, update the graph
                             fetchData(
