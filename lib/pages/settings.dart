@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:airtastic/widgets/custom_dropdown.dart';
 
+
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
@@ -34,50 +35,65 @@ class _SettingsState extends State<Settings> {
   Widget _buildSettingsList() {
     return ListView(
       children: [
-        ListTile(
-          title: const Text('Vibration'),
-          onTap: () {
-            // Implement the action for Vibration
-          },
-          trailing: Switch(
-            value: _vibrationEnabled,
-            onChanged: (bool value) {
-              setState(() {
-                _vibrationEnabled = value;
-              });
-            },
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: ListTile(
+            title: const Text('Color Theme'),
+            trailing: CustomDropdown(
+              items: colorThemeList,
+              initialSelection: _selectedColor,
+              onSelected: (String value) {
+                setState(() {
+                  _selectedColor = value;
+                });
+              },
+            ),
           ),
         ),
-        ListTile(
-          title: const Text('Sound'),
-          onTap: () {
-            // Implement the action for Sound
+        _buildSwitchListTile(
+          title: 'Vibration',
+          value: _vibrationEnabled,
+          onChanged: (bool value) {
+            setState(() {
+              _vibrationEnabled = value;
+            });
           },
-          trailing: Switch(
-            value: _soundEnabled,
-            onChanged: (bool value) {
-              setState(() {
-                _soundEnabled = value;
-              });
-            },
-          ),
+          onTap: () {
+            setState(() {
+              _vibrationEnabled = !_vibrationEnabled;
+            });
+          },
+        ),
+        _buildSwitchListTile(
+          title: 'Sound',
+          value: _soundEnabled,
+          onChanged: (bool value) {
+            setState(() {
+              _soundEnabled = value;
+            });
+          },
+          onTap: () {
+            setState(() {
+              _soundEnabled = !_soundEnabled;
+            });
+          },
+        ),
+        _buildSwitchListTile(
+          title: 'Push Notifications',
+          value: _pushNotificationEnabled,
+          onChanged: (bool value) {
+            setState(() {
+              _pushNotificationEnabled = value;
+            });
+          },
+          onTap: () {
+            setState(() {
+              _pushNotificationEnabled = !_pushNotificationEnabled;
+            });
+          },
         ),
         ListTile(
-          title: const Text('Push Notifications'),
-          onTap: () {
-            // Implement the action for Push Notifications
-          },
-          trailing: Switch(
-            value: _pushNotificationEnabled,
-            onChanged: (bool value) {
-              setState(() {
-                _pushNotificationEnabled = value;
-              });
-            },
-          ),
-        ),
-        ListTile(
-          title: const Text('Background Sync Interval'),
+          title: const Text('Background Sync Interval (minutes)'),
           trailing: CustomDropdown(
             items:
                 syncIntervalList.map((int value) => value.toString()).toList(),
@@ -89,19 +105,25 @@ class _SettingsState extends State<Settings> {
             },
           ),
         ),
-        ListTile(
-          title: const Text('Color Theme'),
-          trailing: CustomDropdown(
-            items: colorThemeList,
-            initialSelection: _selectedColor,
-            onSelected: (String value) {
-              setState(() {
-                _selectedColor = value;
-              });
-            },
-          ),
-        ),
       ],
+    );
+  }
+
+  Widget _buildSwitchListTile({
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      title: GestureDetector(
+        onTap: onTap,
+        child: Text(title),
+      ),
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
+      ),
     );
   }
 }
