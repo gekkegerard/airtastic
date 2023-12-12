@@ -298,10 +298,15 @@ class _TemperatureChartState extends State<TemperatureChart> {
                                   'selectedTimeRange = $selectedTimeRange'); // DEBUG
 
                               // If the starting time is before the ending time, update the current time range
-                              if (selectedTimeRange.startTime.hour <=
-                                      selectedTimeRange.endTime.hour &&
-                                  selectedTimeRange.startTime.minute <
-                                      selectedTimeRange.endTime.minute) {
+                              int hourDifference =
+                                  selectedTimeRange.endTime.hour -
+                                      selectedTimeRange.startTime.hour;
+                              int minuteDifference =
+                                  selectedTimeRange.endTime.minute -
+                                      selectedTimeRange.startTime.minute;
+                              if (hourDifference > 0 ||
+                                  (hourDifference == 0 &&
+                                      minuteDifference > 0)) {
                                 currentGraphTimeRange = selectedTimeRange;
                               }
                             });
