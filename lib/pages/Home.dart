@@ -199,6 +199,7 @@ class _HomeState extends State<Home> {
   }
 }
 
+// DataPoint class for the scatter chart
 class TemperatureData {
   final DateTime timestamp;
   final double temperature;

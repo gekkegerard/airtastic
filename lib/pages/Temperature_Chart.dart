@@ -277,6 +277,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                             // After the user has selected a date, update the graph
                             fetchData(selectedDate: selectedDate);
                           },
+                          initialDate: graphDate,
                         ),
                       ),
                       // Width between the DatePickerWidget and TimePickerWidget buttons
