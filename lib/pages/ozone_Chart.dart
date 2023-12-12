@@ -15,7 +15,7 @@ class _OzoneChartState extends State<OzoneChart> {
         body: const Text('Ozone Chart'),
         drawer: const NavBar(),
         appBar: AppBar(
-          title: const Text("Ozone Chart"),
+          title: const Text("Ozone Chart, in progress."),
           centerTitle: true,
           backgroundColor: Colors.red[600],
         ));
