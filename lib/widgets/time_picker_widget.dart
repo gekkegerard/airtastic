@@ -17,6 +17,12 @@ class TimeRange {
   final TimeOfDay endTime;
 
   TimeRange(this.startTime, this.endTime);
+  @override
+
+  // For debugging purposes
+  String toString() {
+    return 'TimeRange(start: $startTime, end: $endTime)';
+  }
 }
 
 class _TimePickerWidgetState extends State<TimePickerWidget> {
@@ -58,7 +64,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       final TimeOfDay? endTime = await showTimePicker(
         helpText: 'Select Ending Time',
         context: secondContext,
-        initialTime: _selectedEndTime,
+        initialTime: startTime,
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(

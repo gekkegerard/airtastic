@@ -95,31 +95,15 @@ class _TemperatureChartState extends State<TemperatureChart> {
             .join('&');
 
         // Make the POST request
-        print("Making post request"); // DEBUG
+        print("Making post request with date- and timerange"); // DEBUG
         response = await http.post(
           Uri.parse(url),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: encodedBody,
         );
-
-        // The selected date of the user is not the current date, cancel auto refresh since there will not be any new data
-        if (selectedDate.day != DateTime.now().day) {
-          print("Cancelling timer"); // DEBUG
-          _timer.cancel();
-          // User has selected the current date and there is date from today available, restart the timer if it is not already active
-        } else if (selectedDate.day == DateTime.now().day &&
-            _timer.isActive == false &&
-            response.body.trim() != '[]') {
-          print("Restarting timer"); // DEBUG
-          _timer =
-              Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
-            print("Triggered 30 second timer"); // DEBUG
-            fetchData();
-          });
-        }
       } else {
         // If no date is selected, use GET request to get the last day of measurements
-        print("Making get request"); // DEBUG
+        print("Making get request for all data from last date"); // DEBUG
 
         // Making a GET request, gets you the last day of measurements
         response = await http.get(Uri.parse(url));
@@ -159,13 +143,8 @@ class _TemperatureChartState extends State<TemperatureChart> {
         } else {
           print("Making pop-up"); // DEBUG
 
-          // Show a pop-up dialog only if it hasn't been shown before or a new date is selected
+          // Show a pop-up dialog to indicate that there is no data available
           if (selectedDate != null) {
-            // Reset the current time range
-            setState(() {
-              currentGraphTimeRange = null;
-            });
-
             // Show a pop-up dialog
             showDialog(
               context: _scaffoldKey.currentContext!,
@@ -255,7 +234,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
               if (temperatureDataList.isNotEmpty &&
                   isGraphLoaded) // Display DatePickerWidget only when the graph is loaded
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0, 10, 35.0, 0),
+                  padding: const EdgeInsets.fromLTRB(25.0, 10, 25.0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -276,6 +255,26 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
                             // After the user has selected a date, update the graph
                             fetchData(selectedDate: selectedDate);
+
+                            // The selected date of the user is not the current date, cancel auto refresh since there will not be any new data
+                            if (selectedDate!.day != DateTime.now().day) {
+                              print(
+                                  "Cancelling timer from datepicker"); // DEBUG
+                              _timer.cancel();
+                            }
+
+                            // If the selected date is the current date, restart the timer
+                            if (selectedDate!.day == DateTime.now().day &&
+                                _timer.isActive == false) {
+                              print(
+                                  "Restarting timer from datepicker"); // DEBUG
+                              _timer =
+                                  Timer.periodic(Duration(seconds: refreshTime),
+                                      (Timer timer) {
+                                print("Triggered 30 second timer"); // DEBUG
+                                fetchData();
+                              });
+                            }
                           },
                           initialDate: graphDate,
                         ),
@@ -293,6 +292,8 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
                             // Pass the selected time range to page itself
                             setState(() {
+                              print(
+                                  'selectedTimeRange = $selectedTimeRange'); // DEBUG
                               currentGraphTimeRange = selectedTimeRange;
                             });
                             // After the user has selected a time range, update the graph
@@ -301,6 +302,9 @@ class _TemperatureChartState extends State<TemperatureChart> {
                               selectedStartTime: selectedTimeRange.startTime,
                               selectedEndTime: selectedTimeRange.endTime,
                             );
+                            // Cancel auto refresh timer when a time range is selected
+                            _timer.cancel();
+                            print("Cancelling timer from timepicker"); // DEBUG
                           },
                         ),
                       ),

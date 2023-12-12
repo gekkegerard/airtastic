@@ -46,9 +46,10 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       setState(() {
         _isLoading = false;
       });
-      print('Error fetching dates: $e');
+      print('Error fetching dates: $e'); // DEBUG
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to fetch dates from the server')),
+        const SnackBar(content: Text('Failed to fetch dates from the server')),
       );
     }
   }
@@ -90,7 +91,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       print("Dates from server: $datesFromServer"); // DEBUG
     } catch (e) {
       // Handle the error by showing a message to the user
-      print('Error unique dates: $e');
+      print('Error unique dates: $e'); // DEBUG
 
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
