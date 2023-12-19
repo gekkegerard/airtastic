@@ -20,8 +20,8 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
   List<TemperatureData> temperatureDataList = [];
   late Timer _timer;
-  var refreshTime = 30; // Normal refresh time of the graph
-  var loadingRefreshTime =
+  final int refreshTime = 30; // Normal refresh time of the graph
+  final int loadingRefreshTime =
       10; // Faster refresh time of the graph when troubles occur with the server
   bool isGraphLoaded =
       false; // Flag used to indicate that the graph is loaded for the date picker widget
@@ -64,7 +64,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
     TimeOfDay? selectedEndTime,
   }) async {
     try {
-      var url =
+      const String serverUrl =
           'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // GET = last day of measurements, POST = specific date
       http.Response? response;
 
@@ -99,7 +99,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
         // Make the POST request
         print("Making post request with date- and timerange"); // DEBUG
         response = await http.post(
-          Uri.parse(url),
+          Uri.parse(serverUrl),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: encodedBody,
         );
@@ -108,7 +108,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
         print("Making get request for all data from last date"); // DEBUG
 
         // Making a GET request, gets you the last day of measurements
-        response = await http.get(Uri.parse(url));
+        response = await http.get(Uri.parse(serverUrl));
 
         // Extract the date from the GET response body
         var data = jsonDecode(response.body) as List<dynamic>;
@@ -171,7 +171,6 @@ class _TemperatureChartState extends State<TemperatureChart> {
       } else {
         // Handle non-200 status code (error)
         print('Error: ${response.statusCode}'); // DEBUG
-        // You may want to display an error message or handle it in some way
       }
 
       // Return true to indicate a successful fetch
@@ -236,7 +235,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
               if (temperatureDataList.isNotEmpty &&
                   isGraphLoaded) // Display DatePickerWidget only when the graph is loaded
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(25.0, 10, 25.0, 0),
+                  padding: const EdgeInsets.fromLTRB(10.0, 10, 10.0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -362,4 +361,3 @@ class TemperatureData {
     return DataPoint(timestamp, temperature);
   }
 }
-//test
