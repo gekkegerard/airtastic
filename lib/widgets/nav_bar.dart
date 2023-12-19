@@ -67,6 +67,8 @@ class NavBar extends StatelessWidget {
             },
           ),
           ExpansionTile(
+            textColor: Colors.red[600],
+            iconColor: Colors.red[600],
             leading: const Icon(Icons.info),
             title: const Text('Info'),
             children: [
