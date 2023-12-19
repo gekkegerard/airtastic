@@ -56,11 +56,11 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 
   // Do a GET request for the available dates from the server
   Future<List<DateTime>> getDatesFromServer() async {
-    List<DateTime> datesList = [];
+    List<DateTime> listOfAllDates = [];
     try {
       List<Map<String, dynamic>> datesFromServer;
-      var url =
-          'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_unique_dates.php'; // GET = last day of measurements, POST = specific date
+      const String url =
+          'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_unique_dates.php'; // Returns a list of all unique dates in the database
 
       // Send a GET request to the server
       final response = await http.get(Uri.parse(url));
@@ -79,16 +79,14 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       datesFromServer =
           List<Map<String, dynamic>>.from(jsonDecode(response.body));
 
-      print("Dates from server: $datesFromServer"); // DEBUG
+      // print("Dates from server: $datesFromServer"); // DEBUG
 
       // Parse the dates and store them in a list
       setState(() {
-        datesList = datesFromServer
+        listOfAllDates = datesFromServer
             .map((dateMap) => DateTime.parse(dateMap['date']))
             .toList();
       });
-
-      print("Dates from server: $datesFromServer"); // DEBUG
     } catch (e) {
       // Handle the error by showing a message to the user
       print('Error unique dates: $e'); // DEBUG
@@ -101,7 +99,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     }
 
     // Return the dates from the server
-    return datesList;
+    return listOfAllDates;
   }
 
   // Execute this function when the date picker is pressed
@@ -153,9 +151,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     if (_isLoading) {
       return const CircularProgressIndicator(); // or any loading indicator
     } else {
-      return OutlinedButton(
+      return ElevatedButton(
         onPressed: () => _selectDate(context),
-        style: OutlinedButton.styleFrom(
+        style: FilledButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: Colors.red[600],
         ),

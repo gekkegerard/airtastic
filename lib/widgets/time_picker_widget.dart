@@ -94,7 +94,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => _selectTime(context),
-      style: OutlinedButton.styleFrom(
+      style: FilledButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: Colors.red[600],
       ),
