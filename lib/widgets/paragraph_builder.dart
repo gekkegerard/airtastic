@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:airtastic/widgets/page_colors.dart';
+//import 'package:airtastic/widgets/page_colors.dart';
 
 Widget paragraphBuilder(String header, List<dynamic> paragraphs) {
   return Container(
@@ -12,7 +12,7 @@ Widget paragraphBuilder(String header, List<dynamic> paragraphs) {
           style: const TextStyle(
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
-              color: AppColorsLightMode.textColor),
+              /*color: AppColorsLightMode.textColor*/),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 10.0),
@@ -21,7 +21,7 @@ Widget paragraphBuilder(String header, List<dynamic> paragraphs) {
               ? Text(
                   paragraph,
                   style: const TextStyle(
-                      fontSize: 18.0, color: AppColorsLightMode.textColor),
+                      fontSize: 18.0, /*color: AppColorsLightMode.textColor*/),
                   textAlign: TextAlign.center,
                 )
               : paragraph,

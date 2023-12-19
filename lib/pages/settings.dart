@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:airtastic/widgets/custom_dropdown.dart';
 
-
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 

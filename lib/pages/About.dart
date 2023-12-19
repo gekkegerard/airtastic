@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 import 'package:airtastic/data/about_us_page_content.dart';
 import 'package:airtastic/widgets/paragraph_builder.dart';
-import 'package:airtastic/widgets/page_colors.dart';
+//import 'package:airtastic/widgets/page_colors.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -19,7 +19,7 @@ class _AboutState extends State<About> {
       appBar: AppBar(
         title: const Text(navBarHeader),
         centerTitle: true,
-        backgroundColor: AppColorsLightMode.appBarColor,
+        backgroundColor: Colors.red[600],
       ),
       body: ListView(
         shrinkWrap: true,
@@ -30,7 +30,6 @@ class _AboutState extends State<About> {
           paragraphBuilder(fourthHeader, [fourthParagraph])
         ],
       ),
-      backgroundColor: AppColorsLightMode.backGroundColor,
     );
   }
 }
