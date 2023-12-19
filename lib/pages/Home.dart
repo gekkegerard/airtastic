@@ -115,6 +115,7 @@ class _HomeState extends State<Home> {
           alignment: Alignment.topCenter,
           child: Column(
             children: [
+              // Welcome text
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -130,6 +131,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              // Introduction text
               const Text(
                 "This is the home page where you can see the latest data from your Airtastic device. Take a look around the app if you like. You can refresh the data by pressing the refresh button in the bottom right corner.",
                 textAlign: TextAlign.center,
@@ -137,9 +139,8 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(
                   height:
-                      30), // Spacer between introduction and active indicator
-              const SizedBox(
-                  height: 30), // Spacer between active indicator and data
+                      60), // Spacer between introduction and active indicator
+              // Last measurement text
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,7 +153,10 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              const SizedBox(height: paddingBetweenDataValues),
+              // Active indicator
+              const SizedBox(
+                  height:
+                      paddingBetweenDataValues), // Spacer between active indicator and data
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -168,6 +172,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              // Date displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,6 +184,7 @@ class _HomeState extends State<Home> {
                       : const Text("?")
                 ],
               ),
+              // Time displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -194,6 +200,7 @@ class _HomeState extends State<Home> {
                       : const Text("?")
                 ],
               ),
+              // Temperature displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -204,6 +211,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$temperature °C"),
               ]),
+              // Humidity displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -214,6 +222,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$humidity %"),
               ]),
+              // Ozone displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -224,7 +233,25 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$ozone PPB"),
               ]),
-              const SizedBox(height: paddingBetweenDataValues), //
+              // Ozone measurement valid displaying
+              const SizedBox(height: paddingBetweenDataValues),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Ozone measurement valid: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ozoneMeasurementValid ? Colors.green : Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              // Uptime displaying
+              const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
