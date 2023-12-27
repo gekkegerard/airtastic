@@ -1,4 +1,4 @@
-const navBarHeader = 'Carbon Dioxide';
+const navBarHeader = 'Carbon Dioxide Info';
 const firstHeader = 'What is carbon dioxide?';
 const firstParagraph =
     'Carbon dioxide is a chemical compound with the chemical formula CO2. It is found in the gas state at room temperature. CO2 is measured in parts per million (ppm). CO2 is an important greenhouse gas that helps to trap heat in our atmosphere. Without it, our planet would be inhospitably cold. Human beings do exhale almost three billion tons of carbon dioxide annually, but the carbon we exhale is the same carbon that was “inhaled” from the atmosphere by the plants we consume.';

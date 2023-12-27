@@ -1,4 +1,4 @@
-const navBarHeader = 'Ozone';
+const navBarHeader = 'Ozone Info';
 const firstHeader = 'What is ozone?';
 const firstParagraph =
     "Ozone is a gas composed of three atoms of oxygen (O3). Ozone occurs both in the Earth's upper atmosphere and at ground level. Ozone can be good or bad, depending on where it is found. Called stratospheric ozone, good ozone occurs naturally in the upper atmosphere, where it forms a protective layer that shields us from the sun's harmful ultraviolet rays. This beneficial ozone has been partially destroyed by manmade chemicals, causing what is sometimes called a 'hole in the ozone.' Ozone at ground level (man-made ozone) is a harmful air pollutant, because of its effects on people and the environment, and it is the main ingredient in 'smog'.";

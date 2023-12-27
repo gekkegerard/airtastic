@@ -1,4 +1,4 @@
-const navBarHeader = 'Temperature';
+const navBarHeader = 'Temperature Info';
 const firstHeader = 'What is temperature?';
 const firstParagraph =
     'Temperature is a physical quantity that expresses quantitatively the attribute of hotness or coldness. The temperature measured by the Airtastic Sensor is in Celsius.';

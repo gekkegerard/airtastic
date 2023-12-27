@@ -64,9 +64,10 @@ class _HomeState extends State<Home> {
         ozone = double.parse(entry['ozone_concentration']).toString();
         humidity = double.parse(entry['humidity']).toString();
         ozoneMeasurementValid =
-            entry['ozone_measurement_valid'].toString().toLowerCase() == 'true';
+            entry['ozone_measurement_valid'] == "1" ? true : false;
         uptimeESP = double.parse(entry['uptime']).toStringAsFixed(0);
       }
+
       // Return true to indicate a successful fetch
       return true;
     } catch (e) {
@@ -108,6 +109,7 @@ class _HomeState extends State<Home> {
         title: const Text("Home"),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

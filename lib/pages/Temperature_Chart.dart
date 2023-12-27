@@ -196,6 +196,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
         title: const Text('Temperature'),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(

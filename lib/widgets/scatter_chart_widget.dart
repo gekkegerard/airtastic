@@ -60,25 +60,6 @@ class DataChart extends StatelessWidget {
         ),
       ],
     );
-    /*SfCartesianChart(
-                      title: ChartTitle(
-                          text: 'Temperature in °C',
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-                      primaryXAxis: DateTimeAxis(),
-                      series: <ChartSeries>[
-                        ScatterSeries<TemperatureData, DateTime>(
-                          color: Colors.red[600],
-                          dataSource: temperatureDataList,
-                          xValueMapper: (TemperatureData data, _) =>
-                              data.timestamp,
-                          yValueMapper: (TemperatureData data, _) =>
-                              data.temperature,
-                        ),
-                      ],
-                    )*/
-
-    // Welke graph is beter???
   }
 }
 

@@ -1,4 +1,4 @@
-const navBarHeader = 'Humidity';
+const navBarHeader = 'Humidity Info';
 const firstHeader = 'What is humidity?';
 const firstParagraph =
     'Humidity is the concentration of water vapor present in the air. Water vapor, the gaseous state of water, is generally invisible to the human eye. Humidity indicates the likelihood for precipitation, dew, or fog to be present. Humidity depends on the temperature and pressure of the system of interest. The same amount of water vapor results in higher relative humidity in cool air than warm air. Humidity is measured in percentage.';

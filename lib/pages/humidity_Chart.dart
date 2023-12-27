@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:airtastic/widgets/scatter_chart_widget.dart';
+import 'package:airtastic/widgets/date_picker_widget.dart';
+import 'package:airtastic/widgets/time_picker_widget.dart';
 
 class HumidityChart extends StatefulWidget {
   const HumidityChart({super.key});
@@ -13,19 +15,39 @@ class HumidityChart extends StatefulWidget {
 }
 
 class _HumidityChartState extends State<HumidityChart> {
+  // Create a GlobalKey to access the current context
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<HumidityData> humidityDataList = [];
   late Timer _timer;
-  var refreshTime = 30;
-  var loadingRefreshTime = 15;
+  final int refreshTime = 30; // Normal refresh time of the graph
+  final int loadingRefreshTime =
+      10; // Faster refresh time of the graph when troubles occur with the server
+  bool isGraphLoaded =
+      false; // Flag used to indicate that the graph is loaded for the date picker widget
+  DateTime? selectedDate; // Date selected by the user for the graph
+  DateTime? dateFromGraphCurrently; // Date of the first data point in the graph
+  TimeRange? currentGraphTimeRange; // Time range of the current graph
 
   @override
   void initState() {
     super.initState();
-    // Fetch data initially
-    fetchData();
-    // Start a periodic timer to fetch data every 30 seconds
-    _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
-      fetchData();
+    // Try to get data initially
+    fetchData().then((success) {
+      if (success) {
+        // If initial fetch is successful, start periodic timer with refresh time of 30 seconds
+        _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
+          print("Triggered 30 second timer"); // DEBUG
+          fetchData();
+        });
+      } else {
+        // If initial fetch fails, continue with periodic timer using loading refresh time of 10 seconds
+        _timer = Timer.periodic(Duration(seconds: loadingRefreshTime),
+            (Timer timer) {
+          print("Triggered 10 second timer"); // DEBUG
+          fetchData();
+        });
+      }
     });
   }
 
@@ -36,50 +58,145 @@ class _HumidityChartState extends State<HumidityChart> {
     super.dispose();
   }
 
-  Future<void> fetchData() async {
-    // Use loadingRefreshTime while fetching data
-    _timer = Timer.periodic(Duration(seconds: loadingRefreshTime),
-        (Timer timer) async {
-      try {
-        var url =
-            'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // Get all the data from the last day of measuremtens
-        http.Response response = await http.get(Uri.parse(url));
+  Future<bool> fetchData({
+    DateTime? selectedDate,
+    TimeOfDay? selectedStartTime,
+    TimeOfDay? selectedEndTime,
+  }) async {
+    try {
+      const String serverUrl =
+          'https://markus.glumm.sites.nhlstenden.com/opdracht11_app_get_data.php'; // GET = last day of measurements, POST = specific date
+      http.Response? response;
+
+      // If a date is passed on to the function, use POST request with the selected date
+      if (selectedDate != null) {
+        // Create a body for the request
+        Map<String, String> body = {};
+
+        // If a time range is selected, use the selected time range and date
+        if (selectedStartTime != null && selectedEndTime != null) {
+          body = {
+            'primaryDate':
+                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day} ${selectedStartTime.hour}:${selectedStartTime.minute}:00',
+            'secondaryDate':
+                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day} ${selectedEndTime.hour}:${selectedEndTime.minute}:59'
+          };
+          // No time range is selected, use every measurement from the selected date
+        } else {
+          body = {
+            'primaryDate':
+                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day} 00:00:00',
+            'secondaryDate':
+                '${selectedDate.year}-${selectedDate.month}-${selectedDate.day} 23:59:59',
+          };
+        }
+
+        // Encode the body to a string so it can be sent with the request
+        String encodedBody = body.keys
+            .map((key) => '$key=${Uri.encodeComponent(body[key]!)}')
+            .join('&');
+
+        // Make the POST request
+        print("Making post request with date- and timerange"); // DEBUG
+        response = await http.post(
+          Uri.parse(serverUrl),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: encodedBody,
+        );
+      } else {
+        // If no date is selected, use GET request to get the last day of measurements
+        print("Making get request for all data from last date"); // DEBUG
+
+        // Making a GET request, gets you the last day of measurements
+        response = await http.get(Uri.parse(serverUrl));
+
+        // Extract the date from the GET response body
         var data = jsonDecode(response.body) as List<dynamic>;
-
-        List<HumidityData> tempList = [];
-
-        for (var entry in data) {
-          DateTime timestamp = DateTime.parse(entry['timestamp']);
-          double humidity = double.parse(entry['humidity']);
-          tempList.add(HumidityData(timestamp, humidity));
-        }
-
-        if (mounted) {
-          // Check if the widget is still in the widget tree before calling setState
-          setState(() {
-            humidityDataList = tempList;
-          });
-        }
-
-        // Switch back to the regular refresh time after data is loaded
-        _timer.cancel();
-        _timer = Timer.periodic(Duration(seconds: refreshTime), (Timer timer) {
-          fetchData();
-        });
-      } catch (e) {
-        print('Failed to fetch data: $e');
+        dateFromGraphCurrently = DateTime.parse(data[0]['timestamp']);
       }
-    });
+
+      // Successful communication with the server
+      if (response.statusCode == 200) {
+        // Check if the response body is not empty
+        if (response.body.trim() != '[]') {
+          print("Response not empty"); // DEBUG
+          var data = jsonDecode(response.body) as List<dynamic>;
+
+          // Extract the date from the POST response body
+          dateFromGraphCurrently = DateTime.parse(data[0]['timestamp']);
+
+          // Create a list to store the humidity data
+          List<HumidityData> tempList = [];
+
+          for (var entry in data) {
+            DateTime timestamp = DateTime.parse(entry['timestamp']);
+            double humidity = double.parse(entry['humidity']);
+            tempList.add(HumidityData(timestamp, humidity));
+          }
+
+          // Check if the widget is still in the widget tree before calling setState
+          if (mounted) {
+            setState(() {
+              humidityDataList = tempList;
+              isGraphLoaded = true; // Used to display the DatePickerWidget
+            });
+          }
+          // If the response body is empty, show a pop-up dialog
+        } else {
+          print("Showing the pop-up"); // DEBUG
+
+          // Show a pop-up dialog to indicate that there is no data available
+          if (selectedDate != null) {
+            // Show a pop-up dialog
+            showDialog(
+              context: _scaffoldKey.currentContext!,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('No Data Available'),
+                  content: const Text(
+                      'Something went wrong, please try again. Make sure you select the time range chronologically'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      } else {
+        // Handle non-200 status code (error)
+        print('Error: ${response.statusCode}'); // DEBUG
+      }
+
+      // Return true to indicate a successful fetch
+      return true;
+    } catch (e) {
+      print('Failed to fetch data: $e'); // DEBUG
+      // Return false to indicate a failed fetch
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get the date of the first data point, if no data points are available, use the current date. Fix for crash
+    DateTime graphDate = humidityDataList.isNotEmpty
+        ? humidityDataList.first.timestamp
+        : DateTime.now();
+
     return Scaffold(
+      key: _scaffoldKey,
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('Humidity'),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,14 +205,18 @@ class _HumidityChartState extends State<HumidityChart> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               humidityDataList.isNotEmpty
-                  ? DataChart(
-                      dataPoints: humidityDataList
-                          .map((data) => data.toDataPoint())
-                          .toList(),
-                      title: 'Humidity Chart',
-                      xAxisLabel: 'Time', //
-                      yAxisLabel: 'Humidity (%)',
-                      yAxisUnit: '%',
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 30.0, 0),
+                      child: DataChart(
+                        dataPoints: humidityDataList
+                            .map((data) => data.toDataPoint())
+                            .toList(),
+                        title: '      Humidity Chart',
+                        xAxisLabel:
+                            'Measurements (${graphDate.day}-${graphDate.month}-${graphDate.year})',
+                        yAxisLabel: 'Humidity (%)',
+                        yAxisUnit: '%',
+                      ),
                     )
                   : SizedBox(
                       height: 200.0,
@@ -112,6 +233,116 @@ class _HumidityChartState extends State<HumidityChart> {
                         ),
                       ),
                     ),
+              if (humidityDataList.isNotEmpty &&
+                  isGraphLoaded) // Display DatePickerWidget only when the graph is loaded
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 10, 10.0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: DatePickerWidget(
+                          onDateSelected: (date) {
+                            print("Calling Datepickerwidget"); // DEBUG
+
+                            // Save the selected date for later use in the TimePickerWidget
+                            setState(() {
+                              selectedDate = date;
+                            });
+
+                            // Reset the current time range
+                            setState(() {
+                              currentGraphTimeRange = null;
+                            });
+
+                            // After the user has selected a date, update the graph
+                            fetchData(selectedDate: selectedDate);
+
+                            // The selected date of the user is not the current date, cancel auto refresh since there will not be any new data
+                            if (selectedDate!.day != DateTime.now().day) {
+                              print(
+                                  "Cancelling timer from datepicker"); // DEBUG
+                              _timer.cancel();
+                            }
+
+                            // If the selected date is the current date, restart the timer
+                            if (selectedDate!.day == DateTime.now().day &&
+                                _timer.isActive == false) {
+                              print(
+                                  "Restarting timer from datepicker"); // DEBUG
+                              _timer =
+                                  Timer.periodic(Duration(seconds: refreshTime),
+                                      (Timer timer) {
+                                print("Triggered 30 second timer"); // DEBUG
+                                fetchData();
+                              });
+                            }
+                          },
+                          initialDate: graphDate,
+                        ),
+                      ),
+                      // Width between the DatePickerWidget and TimePickerWidget buttons
+                      const SizedBox(width: 20.0),
+                      Expanded(
+                        child: TimePickerWidget(
+                          onTimeSelected: (selectedTimeRange) {
+                            print(
+                                "Selected Start Time: ${selectedTimeRange.startTime}"); // DEBUG
+                            print(
+                                "Selected End Time: ${selectedTimeRange.endTime}"); // DEBUG
+                            print("Date: $selectedDate"); // DEBUG
+
+                            // Pass the selected time range to page itself
+                            setState(() {
+                              print(
+                                  'selectedTimeRange = $selectedTimeRange'); // DEBUG
+
+                              // If the starting time is before the ending time, update the current time range
+                              int hourDifference =
+                                  selectedTimeRange.endTime.hour -
+                                      selectedTimeRange.startTime.hour;
+                              int minuteDifference =
+                                  selectedTimeRange.endTime.minute -
+                                      selectedTimeRange.startTime.minute;
+                              if (hourDifference > 0 ||
+                                  (hourDifference == 0 &&
+                                      minuteDifference > 0)) {
+                                currentGraphTimeRange = selectedTimeRange;
+                              }
+                            });
+                            // After the user has selected a time range, update the graph
+                            fetchData(
+                              selectedDate: dateFromGraphCurrently,
+                              selectedStartTime: selectedTimeRange.startTime,
+                              selectedEndTime: selectedTimeRange.endTime,
+                            );
+                            // Cancel auto refresh timer when a time range is selected
+                            _timer.cancel();
+                            print("Cancelling timer from timepicker"); // DEBUG
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              // Height between the buttons and the text
+              const SizedBox(height: 15.0),
+              if (currentGraphTimeRange != null && isGraphLoaded)
+                Text(
+                  'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}',
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                )
+              else if (isGraphLoaded)
+                const Text(
+                  "Currently showing all measurements of the day.",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                )
             ],
           ),
         ),
@@ -122,12 +353,12 @@ class _HumidityChartState extends State<HumidityChart> {
 
 class HumidityData {
   final DateTime timestamp;
-  final double temperature;
+  final double humidity;
 
-  HumidityData(this.timestamp, this.temperature);
+  HumidityData(this.timestamp, this.humidity);
 
   // Conversion function
   DataPoint toDataPoint() {
-    return DataPoint(timestamp, temperature);
+    return DataPoint(timestamp, humidity);
   }
 }

@@ -27,6 +27,7 @@ class _SettingsState extends State<Settings> {
         title: const Text("Settings"),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
     );
   }
