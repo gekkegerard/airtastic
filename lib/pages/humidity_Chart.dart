@@ -146,9 +146,8 @@ class _HumidityChartState extends State<HumidityChart> {
 
           // Got a response, so the time range is valid
           timeRangeIsValid = true; // Used to display the time range
-
-          // If the response body is empty, show a pop-up dialog
         } else {
+          // If the response body is empty, show a pop-up dialog
           print("Showing the pop-up"); // DEBUG
 
           // Show a pop-up dialog to indicate that there is no data available
@@ -160,7 +159,7 @@ class _HumidityChartState extends State<HumidityChart> {
                 return AlertDialog(
                   title: const Text('No Data Available'),
                   content: const Text(
-                      'Something went wrong, please try again. Make sure you select the time range chronologically. Also make sure that the time range you selected has data in it.'),
+                      'Make sure that the time range you selected has data in it.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
@@ -299,7 +298,7 @@ class _HumidityChartState extends State<HumidityChart> {
                       const SizedBox(width: 10.0),
                       Expanded(
                         child: TimePickerWidget(
-                          onTimeSelected: (selectedTimeRange) {
+                          onTimeSelected: (selectedTimeRange) async {
                             print(
                                 "Selected Start Time: ${selectedTimeRange.startTime}"); // DEBUG
                             print(
@@ -307,32 +306,61 @@ class _HumidityChartState extends State<HumidityChart> {
                             print("Date: $selectedDate"); // DEBUG
 
                             // Pass the selected time range to page itself
-                            setState(() {
-                              print(
-                                  'selectedTimeRange = $selectedTimeRange'); // DEBUG
+                            setState(() {});
 
-                              // If the starting time is before the ending time, update the current time range
-                              int hourDifference =
-                                  selectedTimeRange.endTime.hour -
-                                      selectedTimeRange.startTime.hour;
-                              int minuteDifference =
-                                  selectedTimeRange.endTime.minute -
-                                      selectedTimeRange.startTime.minute;
-                              if (hourDifference > 0 ||
-                                  (hourDifference == 0 &&
-                                      minuteDifference > 0)) {
+                            int hourDifference =
+                                selectedTimeRange.endTime.hour -
+                                    selectedTimeRange.startTime.hour;
+                            int minuteDifference =
+                                selectedTimeRange.endTime.minute -
+                                    selectedTimeRange.startTime.minute;
+
+                            // If the starting time is before the ending time
+                            if (hourDifference > 0 ||
+                                (hourDifference == 0 && minuteDifference > 0)) {
+                              // After the user has selected a time range, get all the data points in that time range, wait for the response
+                              await fetchData(
+                                selectedDate: dateFromGraphCurrently,
+                                selectedStartTime: selectedTimeRange.startTime,
+                                selectedEndTime: selectedTimeRange.endTime,
+                              );
+
+                              // If the response is not empty, update the graph
+                              if (timeRangeIsValid == true) {
                                 currentGraphTimeRange = selectedTimeRange;
                               }
-                            });
-                            // After the user has selected a time range, update the graph
-                            fetchData(
-                              selectedDate: dateFromGraphCurrently,
-                              selectedStartTime: selectedTimeRange.startTime,
-                              selectedEndTime: selectedTimeRange.endTime,
-                            );
-                            // Cancel auto refresh timer when a time range is selected
-                            _timer.cancel();
-                            print("Cancelling timer from timepicker"); // DEBUG
+
+                              // Cancel auto refresh timer when a time range is selected
+                              _timer.cancel();
+                              print(
+                                  "Cancelling timer from timepicker"); // DEBUG
+                            } else {
+                              // Starting time is after the ending time, show a pop-up dialog
+                              showDialog(
+                                context: _scaffoldKey.currentContext!,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('No Data Available'),
+                                    content: const Text(
+                                        'Make sure you select the time range chronologically.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        style: TextButton.styleFrom(
+                                          foregroundColor: Colors
+                                              .red, // Button text color to red
+                                        ),
+                                        child: const Text(
+                                          'OK',
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           },
                         ),
                       ),
@@ -342,12 +370,12 @@ class _HumidityChartState extends State<HumidityChart> {
               // Height between the buttons and the text
               const SizedBox(height: 15.0),
               Text(
-                // Display the time range
-                currentGraphTimeRange != null &&
-                        isGraphLoaded == true &&
-                        timeRangeIsValid == true
-                    ? 'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}'
-                    : 'Currently showing all measurements of the day.',
+                // The graph has loaded and the time range is valid
+                isGraphLoaded
+                    ? (currentGraphTimeRange != null
+                        ? 'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}'
+                        : 'Currently showing all measurements of the day.')
+                    : '',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,

@@ -146,7 +146,6 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
           // Got a response, so the time range is valid
           timeRangeIsValid = true; // Used to display the time range
-          print("full response timeRangeIsValid = $timeRangeIsValid"); // DEBUG
         } else {
           // If the response body is empty, show a pop-up dialog
           print("Showing the pop-up"); // DEBUG
@@ -169,9 +168,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.red, // Button text color to red
                       ),
-                      child: const Text(
-                        'OK',
-                      ),
+                      child: const Text('OK'),
                     ),
                   ],
                 );
@@ -181,7 +178,6 @@ class _TemperatureChartState extends State<TemperatureChart> {
 
           // Got empty response, so the time range is invalid
           timeRangeIsValid = false; // Used to display the time range
-          print("empty response timeRangeIsValid = $timeRangeIsValid"); // DEBUG
         }
       } else {
         // Handle non-200 status code (error)
@@ -346,7 +342,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                                   return AlertDialog(
                                     title: const Text('No Data Available'),
                                     content: const Text(
-                                        'Something went wrong, please try again. Make sure you select the time range chronologically.'),
+                                        'Make sure you select the time range chronologically.'),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
@@ -375,10 +371,12 @@ class _TemperatureChartState extends State<TemperatureChart> {
               const SizedBox(height: 15.0),
               // Display the time range indicator
               Text(
-                // There has been a time range selected, the graph has loaded and the time range is valid
-                isGraphLoaded && currentGraphTimeRange != null
-                    ? 'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}'
-                    : 'Currently showing all measurements of the day.',
+                // The graph has loaded and the time range is valid
+                isGraphLoaded
+                    ? (currentGraphTimeRange != null
+                        ? 'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}'
+                        : 'Currently showing all measurements of the day.')
+                    : '',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
