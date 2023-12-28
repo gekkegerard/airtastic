@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
       for (var entry in data) {
         lastDataPoint = DateTime.parse(entry['timestamp']);
         temperature = double.parse(entry['temperature']).toString();
-        ozone = double.parse(entry['ozone_concentration']).toString();
+        ozone = double.parse(entry['ozone_concentration']).toStringAsFixed(0);
         humidity = double.parse(entry['humidity']).toString();
         ozoneMeasurementValid =
             entry['ozone_measurement_valid'] == "1" ? true : false;
@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
               ),
               // Introduction text
               const Text(
-                "This is the home page where you can see the latest data from your Airtastic device. Take a look around the app if you like. You can refresh the data by pressing the refresh button in the bottom right corner.",
+                "This is the home page where you can see the latest data from your Airtastic device. Take a look around the app to see what your device is capable of. You can refresh the latest data by pressing the refresh button in the bottom right corner.",
                 textAlign: TextAlign.center,
                 style: TextStyle(),
               ),

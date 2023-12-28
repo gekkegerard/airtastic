@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class DataChart extends StatelessWidget {
@@ -21,14 +22,42 @@ class DataChart extends StatelessWidget {
     _tooltipBehavior = TooltipBehavior(
       duration: 5000,
       enable: true,
-      header: "Measurement",
-      format: 'Time: point.x\nValue: point.y$yAxisUnit',
+      builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
+          int seriesIndex) {
+        final DateTime time = point.x;
+        final String formattedTime = DateFormat('HH:mm:ss').format(time);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Time: $formattedTime\nValue: ${point.y}$yAxisUnit',
+            style: const TextStyle(color: Colors.white),
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfCartesianChart(
+    return /*SfCartesianChart(
+      title: ChartTitle(
+          text: title,
+          textStyle:
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+      primaryXAxis: DateTimeAxis(),
+      tooltipBehavior: _tooltipBehavior,
+      series: <ChartSeries>[
+        ScatterSeries<DataPoint, DateTime>(
+          color: Colors.red[600],
+          dataSource: dataPoints,
+          xValueMapper: (DataPoint data, _) => data.timestamp,
+          yValueMapper: (DataPoint data, _) => data.value,
+        ),
+      ],
+    );
+    */
+
+        SfCartesianChart(
       title: ChartTitle(
           text: title,
           textStyle:
@@ -37,6 +66,7 @@ class DataChart extends StatelessWidget {
         title: AxisTitle(
           text: xAxisLabel,
         ),
+        dateFormat: DateFormat.Hm(),
       ),
       primaryYAxis: NumericAxis(
         title: AxisTitle(

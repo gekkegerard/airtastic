@@ -98,7 +98,9 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.red[600],
       ),
-      child: const Text('Select Time Range'),
+      child: const Center(
+        child: Text('Select Time Range'),
+      ),
     );
   }
 }

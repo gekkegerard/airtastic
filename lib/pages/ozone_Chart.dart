@@ -25,6 +25,8 @@ class _OzoneChartState extends State<OzoneChart> {
       10; // Faster refresh time of the graph when troubles occur with the server
   bool isGraphLoaded =
       false; // Flag used to indicate that the graph is loaded for the date picker widget
+  bool timeRangeIsValid =
+      false; // Flag used to indicate that the selected time range has data in it, used in the displaying of the time range
   DateTime? selectedDate; // Date selected by the user for the graph
   DateTime? dateFromGraphCurrently; // Date of the first data point in the graph
   TimeRange? currentGraphTimeRange; // Time range of the current graph
@@ -143,6 +145,10 @@ class _OzoneChartState extends State<OzoneChart> {
               isGraphLoaded = true; // Used to display the DatePickerWidget
             });
           }
+
+          // Got a response, so the time range is valid
+          timeRangeIsValid = true; // Used to display the time range
+
           // If the response body is empty, show a pop-up dialog
         } else {
           print("Showing the pop-up"); // DEBUG
@@ -156,12 +162,15 @@ class _OzoneChartState extends State<OzoneChart> {
                 return AlertDialog(
                   title: const Text('No Data Available'),
                   content: const Text(
-                      'Something went wrong, please try again. Make sure you select the time range chronologically'),
+                      'Something went wrong, please try again. Make sure you select the time range chronologically. Also make sure that the time range you selected has data in it.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red, // Button text color to red
+                      ),
                       child: const Text('OK'),
                     ),
                   ],
@@ -169,6 +178,9 @@ class _OzoneChartState extends State<OzoneChart> {
               },
             );
           }
+
+          // Got empty response, so the time range is invalid
+          timeRangeIsValid = false; // Used to display the time range
         }
       } else {
         // Handle non-200 status code (error)
@@ -236,14 +248,15 @@ class _OzoneChartState extends State<OzoneChart> {
             children: <Widget>[
               ozoneDataList.isNotEmpty
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 30.0, 0),
+                      // Outer padding for the graph
+                      padding: const EdgeInsets.fromLTRB(0, 0, 15.0, 0),
                       child: DataChart(
                         dataPoints: ozoneDataList
                             .map((data) => data.toDataPoint())
                             .toList(),
                         title: '      Ozone Chart',
                         xAxisLabel:
-                            'Measurements (${graphDate.day}-${graphDate.month}-${graphDate.year})',
+                            'Measurements of ${graphDate.day}-${graphDate.month}-${graphDate.year}',
                         yAxisLabel: 'Ozone concentration (PPB)',
                         yAxisUnit: ' PPB',
                       ),
@@ -266,6 +279,7 @@ class _OzoneChartState extends State<OzoneChart> {
               if (ozoneDataList.isNotEmpty &&
                   isGraphLoaded) // Display DatePickerWidget only when the graph is loaded
                 Padding(
+                  // Outer padding for the DatePickerWidget and TimePickerWidget buttons
                   padding: const EdgeInsets.fromLTRB(10.0, 10, 10.0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -312,7 +326,7 @@ class _OzoneChartState extends State<OzoneChart> {
                         ),
                       ),
                       // Width between the DatePickerWidget and TimePickerWidget buttons
-                      const SizedBox(width: 20.0),
+                      const SizedBox(width: 10.0),
                       Expanded(
                         child: TimePickerWidget(
                           onTimeSelected: (selectedTimeRange) {
@@ -357,9 +371,13 @@ class _OzoneChartState extends State<OzoneChart> {
                 ),
               // Height between the buttons and the text
               const SizedBox(height: 15.0),
-              if (currentGraphTimeRange != null && isGraphLoaded)
+
+              if (currentGraphTimeRange != null &&
+                  isGraphLoaded &&
+                  timeRangeIsValid == true)
                 Text(
                   'Current time range: ${currentGraphTimeRange?.startTime.format(context)} to ${currentGraphTimeRange?.endTime.format(context)}',
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -368,6 +386,7 @@ class _OzoneChartState extends State<OzoneChart> {
               else if (isGraphLoaded)
                 const Text(
                   "Currently showing all measurements of the day.",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -383,6 +402,7 @@ class _OzoneChartState extends State<OzoneChart> {
                           currentTime.format(context)))
                 Text(
                   'Ozone measurements valid between ${findValidTimeRange().startTime.format(context)} and ${findValidTimeRange().endTime.format(context)}',
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -391,7 +411,7 @@ class _OzoneChartState extends State<OzoneChart> {
               // No valid ozone measurements in the dataset
               else
                 const Text(
-                  'No valid ozone measurements for that day.',
+                  'No valid ozone measurements for that range.',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
