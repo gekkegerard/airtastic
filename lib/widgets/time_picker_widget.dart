@@ -13,8 +13,8 @@ class TimePickerWidget extends StatefulWidget {
 
 // Add a class to store the selected time range
 class TimeRange {
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  late final TimeOfDay startTime;
+  late final TimeOfDay endTime;
 
   TimeRange(this.startTime, this.endTime);
   @override
