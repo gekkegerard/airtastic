@@ -59,13 +59,13 @@ class NavBar extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/CO2_Chart');
             },
           ),
-          ListTile(
+/*          ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/settings');
             },
-          ),
+          ),*/
           ExpansionTile(
             textColor: Colors.red[600],
             iconColor: Colors.red[600],
