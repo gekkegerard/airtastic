@@ -61,12 +61,13 @@ class _HomeState extends State<Home> {
       for (var entry in data) {
         lastDataPoint = DateTime.parse(entry['timestamp']);
         temperature = double.parse(entry['temperature']).toString();
-        ozone = double.parse(entry['ozone_concentration']).toString();
+        ozone = double.parse(entry['ozone_concentration']).toStringAsFixed(0);
         humidity = double.parse(entry['humidity']).toString();
         ozoneMeasurementValid =
-            entry['ozone_measurement_valid'].toString().toLowerCase() == 'true';
+            entry['ozone_measurement_valid'] == "1" ? true : false;
         uptimeESP = double.parse(entry['uptime']).toStringAsFixed(0);
       }
+
       // Return true to indicate a successful fetch
       return true;
     } catch (e) {
@@ -108,6 +109,7 @@ class _HomeState extends State<Home> {
         title: const Text("Home"),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -115,6 +117,7 @@ class _HomeState extends State<Home> {
           alignment: Alignment.topCenter,
           child: Column(
             children: [
+              // Welcome text
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -130,16 +133,16 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              // Introduction text
               const Text(
-                "This is the home page where you can see the latest data from your Airtastic device. Take a look around the app if you like. You can refresh the data by pressing the refresh button in the bottom right corner.",
+                "This is the home page where you can see the latest data from your Airtastic device. Take a look around the app to see what your device is capable of. You can refresh the latest data by pressing the refresh button in the bottom right corner.",
                 textAlign: TextAlign.center,
                 style: TextStyle(),
               ),
               const SizedBox(
                   height:
-                      30), // Spacer between introduction and active indicator
-              const SizedBox(
-                  height: 30), // Spacer between active indicator and data
+                      60), // Spacer between introduction and active indicator
+              // Last measurement text
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,7 +155,10 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              const SizedBox(height: paddingBetweenDataValues),
+              // Active indicator
+              const SizedBox(
+                  height:
+                      paddingBetweenDataValues), // Spacer between active indicator and data
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -168,6 +174,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              // Date displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,6 +186,7 @@ class _HomeState extends State<Home> {
                       : const Text("?")
                 ],
               ),
+              // Time displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -194,6 +202,7 @@ class _HomeState extends State<Home> {
                       : const Text("?")
                 ],
               ),
+              // Temperature displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -204,6 +213,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$temperature °C"),
               ]),
+              // Humidity displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -214,6 +224,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$humidity %"),
               ]),
+              // Ozone displaying
               const SizedBox(height: paddingBetweenDataValues),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
@@ -224,7 +235,25 @@ class _HomeState extends State<Home> {
                 ),
                 Text("$ozone PPB"),
               ]),
-              const SizedBox(height: paddingBetweenDataValues), //
+              // Ozone measurement valid displaying
+              const SizedBox(height: paddingBetweenDataValues),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Ozone measurement valid: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ozoneMeasurementValid ? Colors.green : Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              // Uptime displaying
+              const SizedBox(height: paddingBetweenDataValues),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

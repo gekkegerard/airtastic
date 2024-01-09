@@ -20,6 +20,7 @@ class _AboutState extends State<About> {
         title: const Text(navBarHeader),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: ListView(
         shrinkWrap: true,

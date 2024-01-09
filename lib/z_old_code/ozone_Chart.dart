@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:airtastic/widgets/nav_bar.dart';
 
-class CO2Chart extends StatefulWidget {
-  const CO2Chart({super.key});
+class OzoneChart extends StatefulWidget {
+  const OzoneChart({super.key});
 
   @override
-  State<CO2Chart> createState() => _CO2ChartState();
+  State<OzoneChart> createState() => _OzoneChartState();
 }
 
-class _CO2ChartState extends State<CO2Chart> {
+class _OzoneChartState extends State<OzoneChart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: const Text('CO2 Chart'),
+        body: const Text('Ozone Chart'),
         drawer: const NavBar(),
         appBar: AppBar(
-          title: const Text("CO2 Chart"),
+          title: const Text("Ozone Chart, in progress."),
           centerTitle: true,
           backgroundColor: Colors.red[600],
-          foregroundColor: Colors.white,
         ));
   }
 }

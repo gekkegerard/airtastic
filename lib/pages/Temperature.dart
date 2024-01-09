@@ -20,6 +20,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
         title: const Text(navBarHeader),
         centerTitle: true,
         backgroundColor: Colors.red[600],
+        foregroundColor: Colors.white,
       ),
       body: ListView(
         shrinkWrap: true,
