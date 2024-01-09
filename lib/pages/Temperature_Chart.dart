@@ -367,6 +367,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                     ],
                   ),
                 ),
+
               // Height between the buttons and the text
               const SizedBox(height: 15.0),
               // Display the time range indicator

@@ -367,6 +367,7 @@ class _HumidityChartState extends State<HumidityChart> {
                     ],
                   ),
                 ),
+
               // Height between the buttons and the text
               const SizedBox(height: 15.0),
               Text(
