@@ -3,7 +3,7 @@ import 'package:airtastic/pages/home.dart';
 import 'package:airtastic/pages/loading.dart';
 import 'package:airtastic/pages/ozone.dart';
 import 'package:airtastic/pages/ozone_chart.dart';
-import 'package:airtastic/pages/settings.dart';
+import 'package:airtastic/z_old_code/settings.dart';
 import 'package:airtastic/pages/temperature.dart';
 import 'package:airtastic/pages/temperature_chart.dart';
 import 'package:airtastic/pages/humidity.dart';
@@ -38,7 +38,7 @@ void main() => runApp(MaterialApp(
         // link for co2 chart page
         '/CO2_Chart': (context) => const CO2Chart(),
         // link for settings page
-        '/settings': (context) => const Settings(),
+        //'/settings': (context) => const Settings(), besloten om niet in het eind product te gebruiken
         // link for about us page
         '/About': (context) => const About(),
       },
